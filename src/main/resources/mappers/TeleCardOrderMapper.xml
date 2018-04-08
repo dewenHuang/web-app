@@ -26,6 +26,18 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_no, sales_id, phone_number, cust_name, cust_id, consignee_name, consignee_phone, 
+    consignee_address, consignee_postalCode, province_code, city_code, county_code, province_code_belong, 
+    city_code_belong, package_id, status, error_code, close_reason, tele_order_no, tele_create_time, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tele_card_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tele_card_order
     where id = #{id,jdbcType=BIGINT}
@@ -48,6 +60,223 @@
       #{closeReason,jdbcType=INTEGER}, #{teleOrderNo,jdbcType=VARCHAR}, #{teleCreateTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
+  <insert id="insertSelective" parameterType="com.huangdw.entity.TeleCardOrder" >
+    insert into tele_card_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="salesId != null" >
+        sales_id,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="custName != null" >
+        cust_name,
+      </if>
+      <if test="custId != null" >
+        cust_id,
+      </if>
+      <if test="consigneeName != null" >
+        consignee_name,
+      </if>
+      <if test="consigneePhone != null" >
+        consignee_phone,
+      </if>
+      <if test="consigneeAddress != null" >
+        consignee_address,
+      </if>
+      <if test="consigneePostalcode != null" >
+        consignee_postalCode,
+      </if>
+      <if test="provinceCode != null" >
+        province_code,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="countyCode != null" >
+        county_code,
+      </if>
+      <if test="provinceCodeBelong != null" >
+        province_code_belong,
+      </if>
+      <if test="cityCodeBelong != null" >
+        city_code_belong,
+      </if>
+      <if test="packageId != null" >
+        package_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errorCode != null" >
+        error_code,
+      </if>
+      <if test="closeReason != null" >
+        close_reason,
+      </if>
+      <if test="teleOrderNo != null" >
+        tele_order_no,
+      </if>
+      <if test="teleCreateTime != null" >
+        tele_create_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeName != null" >
+        #{consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePhone != null" >
+        #{consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeAddress != null" >
+        #{consigneeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePostalcode != null" >
+        #{consigneePostalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null" >
+        #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCodeBelong != null" >
+        #{provinceCodeBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCodeBelong != null" >
+        #{cityCodeBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null" >
+        #{packageId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="closeReason != null" >
+        #{closeReason,jdbcType=INTEGER},
+      </if>
+      <if test="teleOrderNo != null" >
+        #{teleOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="teleCreateTime != null" >
+        #{teleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangdw.entity.TeleCardOrder" >
+    update tele_card_order
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        sales_id = #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        cust_id = #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeName != null" >
+        consignee_name = #{consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePhone != null" >
+        consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeAddress != null" >
+        consignee_address = #{consigneeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePostalcode != null" >
+        consignee_postalCode = #{consigneePostalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null" >
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        county_code = #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCodeBelong != null" >
+        province_code_belong = #{provinceCodeBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCodeBelong != null" >
+        city_code_belong = #{cityCodeBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null" >
+        package_id = #{packageId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="errorCode != null" >
+        error_code = #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="closeReason != null" >
+        close_reason = #{closeReason,jdbcType=INTEGER},
+      </if>
+      <if test="teleOrderNo != null" >
+        tele_order_no = #{teleOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="teleCreateTime != null" >
+        tele_create_time = #{teleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.huangdw.entity.TeleCardOrder" >
     update tele_card_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
@@ -74,19 +303,4 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select id, order_no, sales_id, phone_number, cust_name, cust_id, consignee_name, 
-    consignee_phone, consignee_address, consignee_postalCode, province_code, city_code, 
-    county_code, province_code_belong, city_code_belong, package_id, status, error_code, 
-    close_reason, tele_order_no, tele_create_time, create_time, update_time
-    from tele_card_order
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, order_no, sales_id, phone_number, cust_name, cust_id, consignee_name, 
-    consignee_phone, consignee_address, consignee_postalCode, province_code, city_code, 
-    county_code, province_code_belong, city_code_belong, package_id, status, error_code, 
-    close_reason, tele_order_no, tele_create_time, create_time, update_time
-    from tele_card_order
-  </select>
 </mapper>

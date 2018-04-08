@@ -10,7 +10,7 @@
     <!--指定特定数据库的jdbc驱动jar包的位置-->
     <classPathEntry location="${db.driverLocation}"/>
 
-    <context id="default" targetRuntime="MyBatis3Simple">
+    <context id="default" targetRuntime="MyBatis3">
 
         <!-- optional，旨在创建class时，对注释进行控制 -->
         <commentGenerator>
@@ -66,7 +66,8 @@
         <!-- tablenName: 数据库表名
                 domainObjectName: 生成的类名, 默认驼峰样式
         -->
-        <table tableName="tele_card_order" domainObjectName="TeleCardOrder">
+        <table tableName="tele_card_order" domainObjectName="TeleCardOrder"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
         </table>
     </context>
 </generatorConfiguration>
