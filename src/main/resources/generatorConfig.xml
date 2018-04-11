@@ -11,7 +11,11 @@
     <classPathEntry location="${db.driverLocation}"/>
 
     <context id="default" targetRuntime="MyBatis3">
-
+        <!-- JavaBean 实现 序列化 接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+        </plugin>
+        <!-- genenat entity时,生成toString -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
         <!-- optional，旨在创建class时，对注释进行控制 -->
         <commentGenerator>
             <property name="suppressDate" value="true"/>
@@ -68,6 +72,15 @@
         -->
         <table tableName="tele_card_order" domainObjectName="TeleCardOrder"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="bbs_test" domainObjectName="Test"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- tinyint需要指定成Integer类型 -->
+            <columnOverride column="a_b_c" javaType="Integer" />
+
+            <!-- text、longtext需要指定成String类型 -->
+            <columnOverride column="e_f_g" javaType="String" jdbcType="VARCHAR" />
+            <columnOverride column="f_g_h" javaType="String" jdbcType="VARCHAR" />
         </table>
     </context>
 </generatorConfiguration>
