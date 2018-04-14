@@ -259,8 +259,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <!--根据项目的 jdk 版本配置这里的版本-->
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>1.7</source>
+          <target>1.7</target>
           <encoding>UTF-8</encoding>
 
           <!--非常重要-->
