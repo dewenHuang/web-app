@@ -26,4 +26,12 @@
     <!--通过此工具类获取Spring上下文中的Bean对象-->
     <bean class="com.huangdw.util.SpringContextUtil" />
 
+    <bean id="beanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
+        <property name="mappingFiles">
+            <list>
+                <value>classpath:dozer-mapping.xml</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
