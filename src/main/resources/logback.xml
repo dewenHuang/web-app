@@ -40,14 +40,15 @@
         </filter>
     </appender>
 
-    <logger name="com.chenqingyun" additivity="false" level="INFO" >
-        <appender-ref ref="myproject" />
+    <logger name="com.huangdw" additivity="false" level="INFO">
         <appender-ref ref="console"/>
+        <appender-ref ref="myproject"/>
+        <appender-ref ref="error"/>
     </logger>
 
     <!-- geelynote mybatis log 日志 -->
 
-    <logger name="com.chenqingyun.dao" level="DEBUG"/>
+    <logger name="com.huangdw.dao" level="DEBUG"/>
 
     <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" >-->
     <!--<appender-ref ref="console"/>-->

@@ -1,6 +1,9 @@
 package com.huangdw.test;
 
 import com.alibaba.fastjson.JSON;
+import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.exception.CommonException;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,15 +22,16 @@ public class LogTest {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LogTest.class);
 
-    public static void main(String[] args) {
+    @Test
+    public void testLog() {
         LOGGER.debug("logback 成功了");
         LOGGER.info("logback 成功了");
         LOGGER.error("logback 成功了");
 
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("id", "1");
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("id", 1);
         paramMap.put("name", "黄德文");
-        paramMap.put("age", "32");
+        paramMap.put("age", 32);
         LOGGER.info("user info: {}", JSON.toJSONString(paramMap));
     }
 }

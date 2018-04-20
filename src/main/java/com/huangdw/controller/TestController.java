@@ -3,6 +3,8 @@ package com.huangdw.controller;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
 import com.huangdw.exception.CommonException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/test")
 public class TestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
+
     @RequestMapping("/excWithSpringMvc")
 //    @ResponseBody
     public CommonResult<String> excWithSpringMvc() throws Exception {
@@ -26,6 +30,7 @@ public class TestController {
     @RequestMapping("/excWithSpringAop")
     @ResponseBody
     public CommonResult<String> excWithSpringAop() {
+        LOGGER.info("测试SpringAOP处理异常");
         return null;
     }
 }
