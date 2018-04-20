@@ -24,9 +24,9 @@ public class LogTest {
 
     @Test
     public void testLog() {
-        LOGGER.debug("logback 成功了");
-        LOGGER.info("logback 成功了");
-        LOGGER.error("logback 成功了");
+        LOGGER.debug("logback 打印 debug 日志");
+        LOGGER.info("logback 打印 info 日志");
+        LOGGER.error("logback 打印 error 日志");
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("id", 1);
