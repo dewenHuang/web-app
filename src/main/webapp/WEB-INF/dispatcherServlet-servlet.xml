@@ -10,36 +10,28 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <description>SpringMVC配置</description>
+    <description>SpringMVC 配置</description>
 
     <!--不自动扫描且只扫描@Controller-->
     <context:component-scan base-package="com.huangdw" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
-    <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>text/plain;charset=UTF-8</value>
-                        <value>text/html;charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>application/json;charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <!--配置视图解析器，方便页面返回-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/page/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!--两个标准配置-->
+    <!--将SpringMVC不能处理的请求交给Tomcat-->
+    <mvc:default-servlet-handler />
+    <!--能支持SpringMVC更高级的一些功能，JSR303校验，快捷的Ajax。。-->
+    <mvc:annotation-driven />
 
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="10485760"/> <!-- 10m -->
+        <property name="maxUploadSize" value="10485760"/> <!-- 10M -->
         <property name="maxInMemorySize" value="4096" />
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>

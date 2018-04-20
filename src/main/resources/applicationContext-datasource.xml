@@ -82,13 +82,30 @@
         <property name="basePackage" value="com.chenqingyun.dao"/>
     </bean>
 
-    <!-- 使用@Transactional进行声明式事务管理需要声明下面这行 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-    <!-- 事务管理 -->
+    <!-- 配置事务管理器(mybatis采用的是JDBC的事务管理器) -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--控制住数据源-->
         <property name="dataSource" ref="dataSource"/>
-        <!--提交失败是否回滚-->
-        <property name="rollbackOnCommitFailure" value="true"/>
     </bean>
+
+    <!-- 配置基于 @Transactional 的声明式事务 -->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+
+    <!--配置基于 <tx> 命名空间的声明式事务, 配置事务增强, 事务如何切入-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--所有方法都是事务方法-->
+            <tx:method name="*"/>
+            <!--以get开始的所有方法-->
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <!--切入点表达式-->
+        <aop:pointcut id="aopPointcut" expression="execution(* com.huangdw.service..*(..))"/>
+        <!--配置事务增强-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="aopPointcut"/>
+    </aop:config>
 
 </beans>
