@@ -82,6 +82,12 @@
         <property name="basePackage" value="com.chenqingyun.dao"/>
     </bean>
 
+    <!--配置一个可以执行批量操作的sqlSession-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <constructor-arg name="executorType" value="BATCH" />
+    </bean>
+
     <!-- 配置事务管理器(mybatis采用的是JDBC的事务管理器) -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!--控制住数据源-->
