@@ -18,11 +18,11 @@ public class DateFormatTest {
     @Test
     public void testDateFormat() {
 //        String dateStr = FastDateFormat.getInstance("yyyy-MM-dd").format(new Date());
-        String dateStr = DateFormatUtils.ISO_DATE_FORMAT.format(new Date());
+        String dateStr = DateFormatUtils.ISO_DATE_FORMAT.format(new Date()); // yyyy-MM-dd
         System.out.println(dateStr);
 
 //        String timeStr = FastDateFormat.getInstance("HH:mm:ss").format(new Date());
-        String timeStr = DateFormatUtils.ISO_TIME_FORMAT.format(new Date());
+        String timeStr = DateFormatUtils.ISO_TIME_NO_T_FORMAT.format(new Date()); // HH:mm:ss
         System.out.println(timeStr);
 
         String dateTimeStr = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(new Date());
