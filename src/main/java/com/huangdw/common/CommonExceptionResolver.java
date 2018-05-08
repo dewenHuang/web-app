@@ -26,20 +26,13 @@ import java.io.IOException;
 @Component
 public class CommonExceptionResolver implements HandlerExceptionResolver {
 
-    /**
-     * LOGGER
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonExceptionResolver.class);
-
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
-        LOGGER.error("CommonExceptionResolver 捕获的异常信息", e);
-
         // 判断请求类型(如果是Ajax请求, 则请求类型为 XMLHttpRequest)
         String reqType = request.getHeader("X-Requested-With");
         if (StringUtils.isBlank(reqType)) {
             // 传统同步请求
-            return new ModelAndView("error/500");
+            return new ModelAndView("error/500", "errMsg", "出错了！");
         } else {
             // Ajax异步请求，返回Json串
             CommonResult result;
