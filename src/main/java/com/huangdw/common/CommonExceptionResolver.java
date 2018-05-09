@@ -38,7 +38,7 @@ public class CommonExceptionResolver implements HandlerExceptionResolver {
             CommonResult result;
             if (e instanceof CommonException) {
                 CommonException exception = (CommonException) e;
-                result = new CommonResult(exception.getXxxError());
+                result = new CommonResult(exception.getXxxError(), exception.getErrMsg());
             } else {
                 result = new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }

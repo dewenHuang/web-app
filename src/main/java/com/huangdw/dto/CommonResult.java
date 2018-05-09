@@ -1,6 +1,7 @@
 package com.huangdw.dto;
 
 import com.huangdw.enums.XxxErrorEnum;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 
@@ -29,6 +30,7 @@ public class CommonResult<T> implements Serializable {
     /**
      * 业务数据
      */
+    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
     private T data;
 
     /**

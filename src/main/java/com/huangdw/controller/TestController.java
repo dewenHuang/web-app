@@ -24,13 +24,12 @@ public class TestController {
     @RequestMapping("/excWithSpringMvc")
 //    @ResponseBody
     public CommonResult<String> excWithSpringMvc() throws Exception {
-        throw new CommonException("用户名错误", XxxErrorEnum.USERNAME_ERROR);
+        throw new CommonException(XxxErrorEnum.USERNAME_ERROR, "用户名含有特殊字符");
     }
 
     @RequestMapping("/excWithSpringAop")
     @ResponseBody
     public CommonResult<String> excWithSpringAop() {
-        LOGGER.info("测试SpringAOP处理异常");
-        return null;
+        throw new CommonException(XxxErrorEnum.PASSWORD_ERROR, "用户密码少于8位");
     }
 }

@@ -46,10 +46,10 @@ public class XxxExceptionAspect {
             LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
             if (throwable instanceof CommonException) {
                 // 特定异常处理
-                XxxErrorEnum xxxError = ((CommonException) throwable).getXxxError();
-                return new CommonResult<>(xxxError);
+                CommonException exception = (CommonException) throwable;
+                return new CommonResult(exception.getXxxError(), exception.getErrMsg());
             } else {
-                return new CommonResult<>(XxxErrorEnum.SYSTEM_ERROR);
+                return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
         } finally {
             // 后置通知, 在方法返回结果或者抛出异常之后都会执行, 不能访问目标方法的返回结果
