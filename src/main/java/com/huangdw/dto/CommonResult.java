@@ -1,6 +1,6 @@
 package com.huangdw.dto;
 
-import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.enums.ErrorEnum;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
@@ -53,7 +53,7 @@ public class CommonResult<T> implements Serializable {
      *
      * @param errorEnum
      */
-    public CommonResult(XxxErrorEnum errorEnum) {
+    public CommonResult(ErrorEnum errorEnum) {
         this.code = errorEnum.getCode();
         this.msg = errorEnum.getMsg();
     }
@@ -64,7 +64,7 @@ public class CommonResult<T> implements Serializable {
      * @param errorEnum
      * @param errMsg
      */
-    public CommonResult(XxxErrorEnum errorEnum, String errMsg) {
+    public CommonResult(ErrorEnum errorEnum, String errMsg) {
         this.code = errorEnum.getCode();
         this.msg = errMsg;
     }

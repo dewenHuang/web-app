@@ -1,6 +1,6 @@
 package com.huangdw.exception;
 
-import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.enums.ErrorEnum;
 
 /**
  * @program: my-controller-app
@@ -16,44 +16,26 @@ public class CommonException extends RuntimeException {
     private static final long serialVersionUID = 5816725436661829830L;
 
     /**
-     * Xxx错误
+     * 错误枚举接口
      */
-    private XxxErrorEnum xxxError; // 如果XxxErrorEnum按业务进行划分，则此处继续添加YyyErrorEnum域属性等；当然还可以根据业务场景自定义多个异常类
+    private ErrorEnum error;
 
-    /**
-     * 错误消息
-     */
-    private String errMsg;
-
-    public CommonException(Throwable cause, XxxErrorEnum xxxError, String errMsg) {
-        super(cause);
-        this.xxxError = xxxError;
-        this.errMsg = errMsg;
+    public CommonException(ErrorEnum error) {
+        super(error.getMsg()); // 如果抛出自定义异常时没有指定异常消息，则使用错误枚举的错误消息
+        this.error = error;
     }
 
-    public CommonException(String message, XxxErrorEnum xxxError, String errMsg) {
+    public CommonException(String message, ErrorEnum error) { // 常用，message（可变详细）->开发人员，错误枚举里面的msg（固定通用）->前端用户
         super(message);
-        this.xxxError = xxxError;
-        this.errMsg = errMsg;
+        this.error = error;
     }
 
-    public CommonException(String message, Throwable cause, XxxErrorEnum xxxError, String errMsg) {
+    public CommonException(String message, Throwable cause, ErrorEnum error) { // 异常堆栈信息跟踪
         super(message, cause);
-        this.xxxError = xxxError;
-        this.errMsg = errMsg;
+        this.error = error;
     }
 
-    public CommonException(XxxErrorEnum xxxError, String errMsg) {
-        super("[" + xxxError.getMsg() + "]-" + errMsg);
-        this.xxxError = xxxError;
-        this.errMsg = errMsg;
-    }
-
-    public XxxErrorEnum getXxxError() {
-        return xxxError;
-    }
-
-    public String getErrMsg() {
-        return errMsg;
+    public ErrorEnum getError() {
+        return error;
     }
 }

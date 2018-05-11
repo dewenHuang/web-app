@@ -2,11 +2,11 @@ package com.huangdw.enums;
 
 /**
  * @program: my-controller-app
- * @description: Xxx错误枚举（可以按照业务进行划分）
+ * @description: Xxx错误枚举（包含各个业务异常枚举）
  * @author: huangdw
  * @create: 2018-04-13
  */
-public enum XxxErrorEnum {
+public enum XxxErrorEnum implements ErrorEnum {
 
     // 用户方面错误1xxx
     USERNAME_ERROR(1000, "用户名错误"),
