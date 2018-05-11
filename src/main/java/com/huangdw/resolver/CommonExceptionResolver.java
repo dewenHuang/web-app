@@ -1,14 +1,10 @@
-package com.huangdw.common;
+package com.huangdw.resolver;
 
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
 import com.huangdw.exception.CommonException;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
