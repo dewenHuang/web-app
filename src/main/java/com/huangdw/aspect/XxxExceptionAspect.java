@@ -47,7 +47,7 @@ public class XxxExceptionAspect {
             if (throwable instanceof CommonException) {
                 // 特定异常处理
                 CommonException exception = (CommonException) throwable;
-                return new CommonResult(exception.getError());
+                return new CommonResult(exception.getError(), exception.getErrorMsg());
             } else {
                 return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }

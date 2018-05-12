@@ -20,22 +20,40 @@ public class CommonException extends RuntimeException {
      */
     private ErrorEnum error;
 
-    public CommonException(ErrorEnum error) {
-        super(error.getMsg()); // 如果抛出自定义异常时没有指定异常消息，则使用错误枚举的错误消息
+    /**
+     * 错误文案
+     */
+    private String errorMsg;
+
+    public CommonException(ErrorEnum error) { // 使用默认文案
+        super(error.getMsg());
+        this.errorMsg = error.getMsg();
         this.error = error;
     }
 
-    public CommonException(String message, ErrorEnum error) { // 常用，message（可变详细）->开发人员，错误枚举里面的msg（固定通用）->前端用户
+    public CommonException(String errorMsg, ErrorEnum error) { // 重写文案
+        super("[" + error.getMsg() + "]-" + errorMsg);
+        this.errorMsg = errorMsg;
+        this.error = error;
+    }
+
+    public CommonException(String message, String errorMsg, ErrorEnum error) {
         super(message);
+        this.errorMsg = errorMsg;
         this.error = error;
     }
 
-    public CommonException(String message, Throwable cause, ErrorEnum error) { // 异常堆栈信息跟踪
+    public CommonException(String message, Throwable cause, String errorMsg, ErrorEnum error) {
         super(message, cause);
+        this.errorMsg = errorMsg;
         this.error = error;
     }
 
     public ErrorEnum getError() {
         return error;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
     }
 }
