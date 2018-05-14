@@ -63,9 +63,9 @@
         <!--PSCache大小-->
         <property name="maxOpenPreparedStatements" value="${db.maxOpenPreparedStatements}"/>
 
-        <!-- 超过removeAbandonedTimeout时间后，进行没用（废弃）连接的回收 -->
+        <!-- 对于超过removeAbandonedTimeout秒未调用close()进行归还的连接，强制回收 -->
         <property name="removeAbandoned" value="${db.removeAbandoned}" />
-        <!-- 超时时间限制（默认为300秒，调整为180） -->
+        <!-- 超时时间限制（默认为300秒，调整为1800） -->
         <property name="removeAbandonedTimeout" value="${db.removeAbandonedTimeout}" />
         <!-- 当连接被回收时打印程序的stack traces日志 -->
         <property name="logAbandoned" value="${db.logAbandoned}" />
