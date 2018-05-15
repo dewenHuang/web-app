@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
+<configuration scan="true" scanPeriod="30 seconds">
 
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoding>UTF-8</encoding>
+    <!-- 定义参数 -->
+    <property name="log.level" value="debug" />
+    <property name="log.maxHistory" value="2" />
+    <property name="log.filePath" value="logs" />
+    <property name="log.pattern" value="%d{HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n" />
+
+    <!-- 控制台 appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+            <pattern>${log.pattern}</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
+        <target>System.err</target>
     </appender>
 
-    <appender name="myproject" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${CATALINA_HOME}/logs/myproject.log</File>
+    <!-- 访问日志 appender -->
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.filePath}/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${CATALINA_HOME}/logs/myproject.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <append>true</append>
-            <maxHistory>10</maxHistory>
+            <fileNamePattern>${log.filePath}/access/access.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+            <pattern>${log.pattern}</pattern>
         </encoder>
     </appender>
 
-    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${CATALINA_HOME}/logs/error.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${CATALINA_HOME}/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <append>true</append>
-            <maxHistory>10</maxHistory>
+    <!-- 出错日志 appender -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.filePath}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+            <pattern>${log.pattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -40,35 +47,13 @@
         </filter>
     </appender>
 
-    <!--下面的的 logger 和 root 已经不起作用-->
-    <logger name="com.huangdw" additivity="false" level="INFO">
-        <appender-ref ref="console"/>
-        <appender-ref ref="myproject"/>
-        <appender-ref ref="error"/>
+    <!-- 生产环境用info -->
+    <logger name="com.huangdw.test" level="${log.level}">
+        <appender-ref ref="ACCESS" />
+        <appender-ref ref="ERROR" />
     </logger>
 
-    <!-- geelynote mybatis log 日志 -->
-
-    <logger name="com.huangdw.dao" level="DEBUG"/>
-
-    <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" >-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</logger>-->
-
-    <!--<logger name="java.sql.Connection" level="DEBUG">-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</logger>-->
-    <!--<logger name="java.sql.Statement" level="DEBUG">-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</logger>-->
-
-    <!--<logger name="java.sql.PreparedStatement" level="DEBUG">-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</logger>-->
-
-    <root level="DEBUG">
-        <appender-ref ref="console"/>
-        <appender-ref ref="error"/>
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
     </root>
-
 </configuration>
