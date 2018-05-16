@@ -32,7 +32,7 @@
     <!--两个标准配置-->
     <!--将SpringMVC不能处理的请求交给Tomcat-->
     <mvc:default-servlet-handler />
-    <!--能支持SpringMVC更高级的一些功能，JSR303校验，快捷的Ajax。。-->
+    <!--能支持SpringMVC更高级的一些功能，JSR303校验，@DateTimeFormat注解，快捷的Ajax。。。-->
     <mvc:annotation-driven />
 
     <!-- 文件上传 -->
