@@ -1,6 +1,5 @@
-package com.huangdw.Demo;
+package com.huangdw.demo;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.Date;
 
 /**

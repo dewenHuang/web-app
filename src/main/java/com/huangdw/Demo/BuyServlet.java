@@ -1,4 +1,4 @@
-package com.huangdw.Demo;
+package com.huangdw.demo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,4 +1,4 @@
-package com.huangdw.Demo;
+package com.huangdw.demo;
 
 import java.io.Serializable;
 
