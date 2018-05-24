@@ -32,16 +32,22 @@
     city_code_belong, package_id, status, error_code, close_reason, tele_order_no, tele_create_time, 
     create_time, update_time
   </sql>
+
+  <!-- 根据主键查询 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tele_card_order
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <!-- 根据主键删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tele_card_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
+  <!-- 增加 -->
   <insert id="insert" parameterType="com.huangdw.entity.TeleCardOrder" >
     insert into tele_card_order (id, order_no, sales_id, 
       phone_number, cust_name, cust_id, 
@@ -60,6 +66,8 @@
       #{closeReason,jdbcType=INTEGER}, #{teleOrderNo,jdbcType=VARCHAR}, #{teleCreateTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
+
+  <!-- 有选择地增加 -->
   <insert id="insertSelective" parameterType="com.huangdw.entity.TeleCardOrder" >
     insert into tele_card_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -205,6 +213,8 @@
       </if>
     </trim>
   </insert>
+
+  <!-- 根据主键有选择地修改 -->
   <update id="updateByPrimaryKeySelective" parameterType="com.huangdw.entity.TeleCardOrder" >
     update tele_card_order
     <set >
@@ -277,6 +287,8 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- 根据主键修改 -->
   <update id="updateByPrimaryKey" parameterType="com.huangdw.entity.TeleCardOrder" >
     update tele_card_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
