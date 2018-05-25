@@ -46,9 +46,11 @@ public class XxxExceptionAspect {
             LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
             if (throwable instanceof CommonException) {
                 // 特定异常处理
-                CommonException exception = (CommonException) throwable;
-                return new CommonResult(exception.getError(), exception.getErrorMsg());
+                CommonException e = (CommonException) throwable;
+                LOGGER.error("Catch biz exception errorCode {} errorMsg {} and param desc is {}", e.getError().getCode(), e.getErrorMsg(), e.getParamDesc(), e);
+                return new CommonResult(e.getError());
             } else {
+                LOGGER.error("Catch unknown exception", throwable);
                 return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
         } finally {
