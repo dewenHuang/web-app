@@ -2,8 +2,9 @@ package com.huangdw.client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -21,54 +22,49 @@ public class AccessClient {
     /**
      * get请求
      *
-     * @param realUrl
+     * @param getUrl
      * @return
      */
-    public static String sendGet(URL realUrl) {
+    public static String sendGet(URL getUrl) {
         String result = "";
-        BufferedReader in = null;
+        BufferedReader reader = null;
         try {
-            // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
-            // 设置通用的请求属性
-            connection.setRequestProperty("accept", "*/*");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // 建立实际的连接
+            // 打开连接
+            HttpURLConnection connection = (HttpURLConnection) getUrl.openConnection();
+            // 进行连接，但是实际上get request要在下一句的connection.getInputStream()函数中才会真正发到服务器
             connection.connect();
-
-            // 定义 BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+            // 取得输入流，并使用Reader读取
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
-            while ((line = in.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 result += line;
             }
+            // 断开连接
+            connection.disconnect();
         } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
             e.printStackTrace();
         }
         // 使用finally块来关闭输入流
         finally {
             try {
-                if (in != null) {
-                    in.close();
+                if (reader != null) {
+                    reader.close();
                 }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return result;
     }
 
     public void access() throws Exception {
-        final URL url = new URL("http://localhost:8080/access.do");
+        final URL getUrl = new URL("http://localhost:8080/access.do?username=" + URLEncoder.encode("黄德文", "UTF-8"));
+//        final URL getUrl = new URL("http://localhost:8080/access.do?username=黄德文");
 
         for (int i = 0; i < 10; i++) { // 模拟10个请求并发执行
             fixedThreadPool.submit(new Runnable() {
                 public void run() {
-                    System.out.println(sendGet(url));
+                    System.out.println(sendGet(getUrl));
                 }
             });
         }

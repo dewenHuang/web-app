@@ -4,8 +4,9 @@ import com.huangdw.service.AccessLimitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -20,9 +21,11 @@ public class HelloController {
     @Autowired
     private AccessLimitService accessLimitService;
 
-    @RequestMapping("/access")
-    @ResponseBody
-    public String access() {
+    @RequestMapping(value = "/access")
+    public void access(String username, HttpServletResponse response) throws IOException {
+        System.out.println("后台接收到的中文参数是：" + username);
+        response.setContentType("text/html;charset=UTF-8");
+
         //尝试获取令牌
         if (accessLimitService.tryAcquire()) {
             //模拟业务执行500毫秒
@@ -31,9 +34,9 @@ public class HelloController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return "aceess success [" + Calendar.getInstance().getTimeInMillis() + "]";
+            response.getWriter().println("访问成功 [" + Calendar.getInstance().getTimeInMillis() + "]");
         } else {
-            return "aceess limit [" + Calendar.getInstance().getTimeInMillis() + "]";
+            response.getWriter().println("访问失败 [" + Calendar.getInstance().getTimeInMillis() + "]");
         }
     }
 }
