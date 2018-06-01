@@ -24,7 +24,7 @@ public class HelloController {
     @RequestMapping(value = "/access")
     public void access(String username, HttpServletResponse response) throws IOException {
         System.out.println("后台接收到的中文参数是：" + username);
-        response.setContentType("text/html;charset=UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
 
         //尝试获取令牌
         if (accessLimitService.tryAcquire()) {

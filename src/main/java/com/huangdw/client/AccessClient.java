@@ -58,8 +58,8 @@ public class AccessClient {
     }
 
     public void access() throws Exception {
-        final URL getUrl = new URL("http://localhost:8080/access.do?username=" + URLEncoder.encode("黄德文", "UTF-8"));
-//        final URL getUrl = new URL("http://localhost:8080/access.do?username=黄德文");
+//        final URL getUrl = new URL("http://localhost:8080/access.do?username=" + URLEncoder.encode("黄德文", "UTF-8"));
+        final URL getUrl = new URL("http://localhost:8080/access.do?username=黄德文");
 
         for (int i = 0; i < 10; i++) { // 模拟10个请求并发执行
             fixedThreadPool.submit(new Runnable() {
