@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 @Aspect
 @Component
-public class XxxExceptionAspect {
+public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的异常，不推荐使用
 
     /**
      * LOGGER

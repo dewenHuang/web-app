@@ -7,7 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @program: my-controller-app
@@ -31,5 +37,20 @@ public class TestController {
     @ResponseBody
     public CommonResult<String> excWithSpringAop() {
         throw new CommonException(XxxErrorEnum.PASSWORD_ERROR, "用户密码少于8位");
+    }
+
+    /**
+     * 测试绑定参数
+     *
+     * @param name 不传，自动赋值null；可以传空串或者空格
+     * @param age 不传，抛出IllegalStateException异常，因为不能赋值null给int参数；不可以传任何不能转换int的参数（包括空串、空格等），会报400错；
+     *            所以需要添加@RequestParam注解指定参数必传（就不存在赋值null的问题），避免抛出异常，当然如果同时指定required和defaultValue的话，可以对null、""和" "进行默认值处理；
+     *            对于可能为空的参数（age为空，没有意义！），可以使用包装类Integer接收，这样就不会抛出IllegalStateException异常了。
+     */
+    @RequestMapping(value = "/bindParams", method = RequestMethod.GET)
+    public void bindParams(String name, @RequestParam(value = "age") int age, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("绑定参数成功! name=" + name + ", age=" + age);
     }
 }
