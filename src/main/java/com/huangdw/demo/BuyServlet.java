@@ -20,15 +20,17 @@ import java.util.List;
 public class BuyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        Book book = DB.getAll().get(id);  //得到用户想买的书
+        BookEntity book = DB.getAllBooks().get(id); // 得到用户购买的书籍
+
         HttpSession session = request.getSession(false);
-        List<Book> list = (List) session.getAttribute("list");  //得到用户用于保存所有书的容器
+        List<BookEntity> list = (List) session.getAttribute("list"); // 得到用于保存所有用户购买的书籍的容器
         if(list == null) {
-            list = new ArrayList<Book>();
-            session.setAttribute("list", list);
+            list = new ArrayList<>();
         }
-        list.add(book);
-        String url = request.getContextPath()+"/ListCartServlet";
+        list.add(book); // 往容器中添加书籍
+        session.setAttribute("list", list); // 更新 Session 中的书籍容器
+
+        String url = request.getContextPath() + "/ListCartServlet"; // request.getContextPath()等于/, 可以省略
         url = response.encodeRedirectURL(url); // 用于对 sendRedirect 方法后的url地址进行重写; 如果浏览器没有禁用 Cookie, 这行代码就不会生效.
         response.sendRedirect(url);
     }

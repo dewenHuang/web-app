@@ -23,15 +23,15 @@ public class ListCartServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession(false);
-        List<Book> list = (List) session.getAttribute("list");
+        List<BookEntity> list = (List) session.getAttribute("list");
         if(list == null || list.size() == 0) {
-            out.write("对不起，您还没有购买任何商品!!");
+            out.write("对不起, 您还没有购买任何书籍!");
             return;
         }
 
-        //显示用户买过的商品
-        out.write("您买过如下商品:<br>");
-        for (Book book : list) {
+        // 显示用户购买的书籍
+        out.write("您购买了如下书籍:<br>");
+        for (BookEntity book : list) {
             out.write(book.getName() + "<br/>");
         }
     }
