@@ -29,7 +29,7 @@ public class BuyServlet extends HttpServlet {
         }
         list.add(book);
         String url = request.getContextPath()+"/ListCartServlet";
-        url = response.encodeRedirectURL(url); // 对sendRedirect方法后的url地址进行重写
+        url = response.encodeRedirectURL(url); // 用于对 sendRedirect 方法后的url地址进行重写; 如果浏览器没有禁用 Cookie, 这行代码就不会生效.
         response.sendRedirect(url);
     }
 

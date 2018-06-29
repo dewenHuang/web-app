@@ -22,7 +22,9 @@ public class SessionDemo1 extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         // 使用request对象的getSession()获取session，如果session不存在则创建一个
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(); // 等价于 request.getSession(true), 这样在往 Session 中存数据时才不会出现空指针异常
+        // 将数据存储到session中
+        session.setAttribute("data", "孤傲苍狼");
         // 获取session的Id
         String sessionId = session.getId();
         // 判断session是不是新创建的
@@ -31,8 +33,6 @@ public class SessionDemo1 extends HttpServlet {
         } else {
             out.write("获取已经存在的Session，ID为" + sessionId);
         }
-        // 将数据存储到session中
-        session.setAttribute("data", "孤傲苍狼");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

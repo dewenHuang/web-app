@@ -21,14 +21,14 @@ public class IndexServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        // 创建Session
+        // 手动创建 Session(如果访问的是JSP页面, 那么服务器会自动创建 Session)
         request.getSession();
         out.write("本网站有如下书：<br>");
         Map<String, Book> allBooks = DB.getAll();
         for (Map.Entry<String, Book> entry : allBooks.entrySet()) {
             Book book = entry.getValue();
             String url = request.getContextPath() + "/BuyServlet?id=" + book.getId();
-            url = response.encodeURL(url); // 对超链接的url地址进行重写
+            url = response.encodeURL(url); // 用于对表单 action 和超链接的 url 地址进行重写; 如果浏览器没有禁用 Cookie, 这行代码就不会生效.
             out.write(book.getName() + " <a href='" + url + "'>购买</a><br>");
         }
     }
