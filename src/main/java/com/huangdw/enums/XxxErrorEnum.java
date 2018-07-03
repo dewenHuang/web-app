@@ -11,6 +11,7 @@ public enum XxxErrorEnum implements ErrorEnum {
     // 用户方面错误1xxx
     USERNAME_ERROR(1000, "用户名错误"),
     PASSWORD_ERROR(1001, "用户密码错误"),
+    USER_NOT_LOGIN(1002, "用户未登录"),
     // 资源错误2xxx
     RESOURCE_EXPIRE(2000, "资源过期"),
     RESOURCE_NOTFOUND(2001, "资源不存在"),

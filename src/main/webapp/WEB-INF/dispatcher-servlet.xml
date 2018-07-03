@@ -67,7 +67,7 @@
     <!--转义-->
     <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
 
-    <!--  配置freeMarker视图解析器 -->
+    <!-- 配置freeMarker视图解析器 -->
     <bean id="freemarkerViewResolver"
           class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="cache" value="true" />
@@ -75,5 +75,15 @@
         <property name="contentType" value="text/html; charset=utf-8" />
         <property name="order" value="0" />
     </bean>
+
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.huangdw.senior.interceptor.LoginInterceptor">
+                <property name="loginUrl" value="${qsurvey.login.url}"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
