@@ -84,6 +84,16 @@
                 <property name="loginUrl" value="${qsurvey.login.url}"/>
             </bean>
         </mvc:interceptor>
+
+        <!-- 对所有请求进行拦截，公共拦截器可以有多个 -->
+        <bean name="baseInterceptor" class="com.huangdw.senior.interceptor.BaseInterceptor" />
+        <!--<bean name="testInterceptor" class="com.huangdw.senior.interceptor.TestInterceptor" />-->
+        <mvc:interceptor>
+            <!-- 对/test.do请求进行拦截 -->
+            <mvc:mapping path="/test.do"/>
+            <!-- 特定请求的拦截器只能有一个 -->
+            <bean class="com.huangdw.senior.interceptor.TestInterceptor" />
+        </mvc:interceptor>
     </mvc:interceptors>
 
 </beans>

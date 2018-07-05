@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.io.PrintWriter;
  * @create: 2018-04-13
  */
 @Controller
-@RequestMapping("/test")
 public class TestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
@@ -52,5 +52,16 @@ public class TestController {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         out.println("绑定参数成功! name=" + name + ", age=" + age);
+    }
+
+    /**
+     * 在 Interceptor(preHandler()) 之后执行, 且在Interceptor(postHandler()) 之前执行
+     *
+     * @return
+     */
+    @RequestMapping("/test")
+    public ModelAndView handleRequest(){
+        System.out.println("------------- TestController executed ------------");
+        return new ModelAndView("test");
     }
 }
