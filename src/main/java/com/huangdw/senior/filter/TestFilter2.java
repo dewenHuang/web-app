@@ -1,11 +1,6 @@
 package com.huangdw.senior.filter;
 
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 
 /**
@@ -14,11 +9,21 @@ import java.io.IOException;
  * @author: huangdw
  * @create: 2018-07-04 17:10
  */
-public class TestFilter2 extends OncePerRequestFilter {
+public class TestFilter2 implements Filter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("TestFilter2 init...");
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         System.out.println("############# TestFilter2 doFilter before #############");
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(servletRequest, servletResponse);
         System.out.println("############# TestFilter2 doFilter after #############");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("TestFilter2 destroy...");
     }
 }

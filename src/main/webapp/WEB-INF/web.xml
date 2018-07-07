@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>web-app Web Application</display-name>
 
     <!--过滤器-->
     <filter>
@@ -71,5 +71,20 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>com.huangdw.senior.listener.TestApplicationListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.huangdw.senior.listener.TestRequestListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.huangdw.senior.listener.TestSessionListener</listener-class>
+    </listener>
+
+    <session-config>
+        <!-- 1 分钟后 Session 超时, 自动销毁 -->
+        <session-timeout>1</session-timeout>
+    </session-config>
 
 </web-app>
