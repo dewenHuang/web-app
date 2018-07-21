@@ -1,5 +1,8 @@
 package com.huangdw.test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.List;
  * @create: 2018-06-15 10:05
  */
 public class CommonTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonTest.class);
 
 //    public static final List<String> list = new ArrayList<>(Arrays.asList("ab", "cd", "ef"));
 
@@ -52,5 +56,7 @@ public class CommonTest {
         for (String s : list) {
             System.out.println(s);
         }
+
+        LOGGER.info("列表大小: {}, 列表: {}.", list.size(), list);
     }
 }
