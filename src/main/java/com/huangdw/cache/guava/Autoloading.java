@@ -22,38 +22,41 @@ public class Autoloading {
 
         new Thread(new Runnable() {
             public void run() {
-                System.out.println("thread1");
+                System.out.println("thread1 begin");
+                String value = "";
                 try {
-                    String value = cache.get("key", new Callable<String>() {
+                    value = cache.get("key", new Callable<String>() {
                         public String call() throws Exception {
-                            System.out.println("load1"); //加载数据线程执行标志
+                            System.out.println("thread1 loading..."); //加载数据线程执行标志
                             Thread.sleep(1000); //模拟加载时间
-                            return "auto load by Callable";
+                            return "value1";
                         }
                     });
-                    System.out.println("thread1 " + value);
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                System.out.println("thread1 end, key:" + value);
             }
         }).start();
 
         new Thread(new Runnable() {
             public void run() {
-                System.out.println("thread2");
+                System.out.println("thread2 begin");
+                String value = "";
                 try {
-                    String value = cache.get("key", new Callable<String>() {
+                    value = cache.get("key", new Callable<String>() {
                         public String call() throws Exception {
-                            System.out.println("load2"); //加载数据线程执行标志
+                            System.out.println("thread2 loading..."); //加载数据线程执行标志
                             Thread.sleep(1000); //模拟加载时间
-                            return "auto load by Callable";
+                            return "value2";
                         }
                     });
-                    System.out.println("thread2 " + value);
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                System.out.println("thread2 end, key:" + value);
             }
         }).start();
+
     }
 }

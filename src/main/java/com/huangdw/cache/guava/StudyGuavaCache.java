@@ -75,23 +75,42 @@ public class StudyGuavaCache {
 //        System.out.println("key3 -> " + cache.getIfPresent("key3"));
 
         // 移除监听器
-        RemovalListener<String, String> listener = new RemovalListener<String, String>() {
-            @Override
-            public void onRemoval(RemovalNotification<String, String> notification) {
-                System.out.println("[" + notification.getKey() + ":" + notification.getValue() + "] is removed!");
-            }
-        };
+//        RemovalListener<String, String> listener = new RemovalListener<String, String>() {
+//            @Override
+//            public void onRemoval(RemovalNotification<String, String> notification) {
+//                System.out.println("[" + notification.getKey() + ":" + notification.getValue() + "] is removed!");
+//            }
+//        };
+//        Cache<String, String> cache = CacheBuilder.newBuilder()
+//                .maximumSize(3)
+//                .removalListener(listener)
+//                .build();
+//        cache.put("key1", "value1");
+//        cache.put("key2", "value2");
+//        cache.put("key3", "value3");
+//        cache.put("key4", "value4");
+//        cache.put("key5", "value5");
+//        cache.put("key6", "value6");
+//        cache.put("key7", "value7");
+//        cache.put("key8", "value8");
+
+        // 统计信息
         Cache<String, String> cache = CacheBuilder.newBuilder()
                 .maximumSize(3)
-                .removalListener(listener)
+                .recordStats()
                 .build();
         cache.put("key1", "value1");
         cache.put("key2", "value2");
         cache.put("key3", "value3");
         cache.put("key4", "value4");
-        cache.put("key5", "value5");
-        cache.put("key6", "value6");
-        cache.put("key7", "value7");
-        cache.put("key8", "value8");
+
+        cache.getIfPresent("key1");
+        cache.getIfPresent("key2");
+        cache.getIfPresent("key3");
+        cache.getIfPresent("key4");
+        cache.getIfPresent("key5");
+        cache.getIfPresent("key6");
+
+        System.out.println(cache.stats());
     }
 }
