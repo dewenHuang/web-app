@@ -26,11 +26,6 @@ public class CommonException extends RuntimeException {
      */
     private String errorMsg;
 
-    /**
-     * 参数数组
-     */
-    private Object[] paramArr;
-
     public CommonException(ErrorEnum error) { // 使用默认文案
         super(error.getMsg());
         this.error = error;
@@ -43,53 +38,11 @@ public class CommonException extends RuntimeException {
         this.errorMsg = errorMsg;
     }
 
-    public CommonException(ErrorEnum error, Object[] paramArr) { // 使用默认文案，并打印业务参数
-        super(error.getMsg());
-        this.error = error;
-        this.errorMsg = error.getMsg();
-        this.paramArr = paramArr;
-    }
-
-    public CommonException(ErrorEnum error, String errorMsg, Object[] paramArr) { // 重写文案，并打印业务参数
-        super("[" + error.getMsg() + "]->" + errorMsg);
-        this.error = error;
-        this.errorMsg = errorMsg;
-        this.paramArr = paramArr;
-    }
-
     public ErrorEnum getError() {
         return error;
     }
 
     public String getErrorMsg() {
         return errorMsg;
-    }
-
-    /**
-     * 获取参数描述
-     *
-     * @return
-     */
-    public String getParamDesc() {
-        String paramDesc = "";
-        if (paramArr != null && paramArr.length > 0) {
-            StringBuffer buffer = new StringBuffer();
-            buffer.append("{");
-            Object param;
-            for (int i = 0; i < paramArr.length; i++) {
-                param = paramArr[i];
-                if (param != null) {
-                    buffer.append("Param").append(i + 1).append("=");
-                    buffer.append(JSON.toJSONString(param));
-                    if (i != paramArr.length - 1) {
-                        buffer.append(";");
-                    }
-                }
-            }
-            buffer.append("}.");
-            paramDesc = buffer.toString();
-        }
-
-        return paramDesc;
     }
 }

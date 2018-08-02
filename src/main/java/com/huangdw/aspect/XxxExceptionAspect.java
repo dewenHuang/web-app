@@ -43,11 +43,11 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
             return result;
         } catch (Throwable throwable) {
             // 异常通知, 在方法抛出异常之后执行
-            LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
+//            LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
             if (throwable instanceof CommonException) {
                 // 特定异常处理
                 CommonException e = (CommonException) throwable;
-                LOGGER.error("Catch biz exception errorCode {} errorMsg {} and param desc is {}", e.getError().getCode(), e.getErrorMsg(), e.getParamDesc(), e);
+                LOGGER.error("Catch biz exception, errorCode: {} errorMsg: {}", e.getError().getCode(), e.getErrorMsg(), e);
                 return new CommonResult(e.getError());
             } else {
                 LOGGER.error("Catch unknown exception", throwable);

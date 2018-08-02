@@ -36,6 +36,7 @@ public class TestController {
     @RequestMapping("/excWithSpringAop")
     @ResponseBody
     public CommonResult<String> excWithSpringAop() {
+        LOGGER.info("Xxx method begin, password: {}", "123456");
         throw new CommonException(XxxErrorEnum.PASSWORD_ERROR, "用户密码少于8位");
     }
 
