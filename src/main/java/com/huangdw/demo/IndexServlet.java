@@ -23,7 +23,7 @@ public class IndexServlet extends HttpServlet {
 
         // 手动创建 Session(如果访问的是JSP页面, 那么服务器会自动创建 Session)
         request.getSession();
-        out.write("本网站有如下书籍：<br>");
+        out.write("本网站有如下书籍:<br>");
         Map<String, BookEntity> allBooks = DB.getAllBooks();
         for (Map.Entry<String, BookEntity> entry : allBooks.entrySet()) {
             BookEntity book = entry.getValue();

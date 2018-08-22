@@ -22,7 +22,7 @@ public class ListCartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         List<BookEntity> list = (List) session.getAttribute("list");
         if(list == null || list.size() == 0) {
             out.write("对不起, 您还没有购买任何书籍!");
@@ -32,7 +32,7 @@ public class ListCartServlet extends HttpServlet {
         // 显示用户购买的书籍
         out.write("您购买了如下书籍:<br>");
         for (BookEntity book : list) {
-            out.write(book.getName() + "<br/>");
+            out.write(book.getName() + "<br>");
         }
     }
 

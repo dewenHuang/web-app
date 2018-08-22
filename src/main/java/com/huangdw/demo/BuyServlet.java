@@ -22,13 +22,13 @@ public class BuyServlet extends HttpServlet {
         String id = request.getParameter("id");
         BookEntity book = DB.getAllBooks().get(id); // 得到用户购买的书籍
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         List<BookEntity> list = (List) session.getAttribute("list"); // 得到用于保存所有用户购买的书籍的容器
-        if(list == null) {
+        if(list == null) {// 第一次购买书籍或者点击购买超链接时 Session 已失效
             list = new ArrayList<>();
+            session.setAttribute("list", list);
         }
         list.add(book); // 往容器中添加书籍
-        session.setAttribute("list", list); // 更新 Session 中的书籍容器
 
         String url = request.getContextPath() + "/ListCartServlet"; // request.getContextPath()等于/, 可以省略
         url = response.encodeRedirectURL(url); // 用于对 sendRedirect 方法后的url地址进行重写; 如果浏览器没有禁用 Cookie, 这行代码就不会生效.
