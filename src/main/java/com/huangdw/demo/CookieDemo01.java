@@ -1,5 +1,6 @@
 package com.huangdw.demo;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 
@@ -32,7 +33,7 @@ public class CookieDemo01 extends HttpServlet {
         // 获取两个Cookie字段
         Cookie usernameCookie = null;
         Cookie lastAccessTimeCookie = null;
-        if (cookies != null && cookies.length > 0) {
+        if (ArrayUtils.isNotEmpty(cookies)) {
             for (Cookie cookie : cookies) {
                 if (StringUtils.equals(cookie.getName(), "username")) {
                     usernameCookie = cookie;
@@ -41,14 +42,14 @@ public class CookieDemo01 extends HttpServlet {
                     lastAccessTimeCookie = cookie;
                 }
             }
-         }
+        }
         if (usernameCookie != null && lastAccessTimeCookie != null) {
             long lastAccessTime = Long.parseLong(lastAccessTimeCookie.getValue());
             Date date = new Date(lastAccessTime);
 
-            out.write(URLDecoder.decode(usernameCookie.getValue(), "UTF-8") + "，您上次访问的时间是：" + FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(date));
+            out.write(URLDecoder.decode(usernameCookie.getValue(), "UTF-8") + ", 您上次访问的时间是: " + FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(date));
         } else {
-            out.write("这是您第一次访问本站！");
+            out.write("这是您第一次访问本站点!");
         }
 
         // 用户访问过之后重新设置用户的访问时间，存储到cookie中，然后发送到客户端浏览器

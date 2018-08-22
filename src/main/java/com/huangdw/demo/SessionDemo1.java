@@ -29,9 +29,9 @@ public class SessionDemo1 extends HttpServlet {
         String sessionId = session.getId();
         // 判断session是不是新创建的
         if (session.isNew()) {
-            out.write("新建了一个Session，ID为" + sessionId);
+            out.write("新建了一个 Session, ID 为 " + sessionId);
         } else {
-            out.write("获取已经存在的Session，ID为" + sessionId);
+            out.write("获取已经存在的 Session, ID 为 " + sessionId);
         }
     }
 

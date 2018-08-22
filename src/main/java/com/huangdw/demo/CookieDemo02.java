@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class CookieDemo02 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 创建一个名字为lastAccessTime的cookie
-        Cookie cookie = new Cookie("lastAccessTime", null);
+        Cookie cookie = new Cookie("lastAccessTime", null);// 自动转换 ""
         // 将cookie的有效期设置为0，命令浏览器删除该cookie
         cookie.setMaxAge(0);
         response.addCookie(cookie);
@@ -30,7 +30,7 @@ public class CookieDemo02 extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.write("删除cookie成功！");
+        out.write("删除 Cookie 成功!");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
