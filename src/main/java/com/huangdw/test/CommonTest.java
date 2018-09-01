@@ -1,5 +1,6 @@
 package com.huangdw.test;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,10 +54,23 @@ public class CommonTest {
 //            System.out.println(ids);
 //        }
 
-        for (String s : list) {
+//        for (String s : list) {
+//            System.out.println(s);
+//        }
+//
+//        LOGGER.info("列表大小: {}, 列表: {}.", list.size(), list);
+
+        String[] arr = list.toArray(new String[0]); // 或者 new String[list.size()]
+        for (String s : arr) {
             System.out.println(s);
         }
 
-        LOGGER.info("列表大小: {}, 列表: {}.", list.size(), list);
+        System.out.println(JSON.toJSONString(null));
+        System.out.println(JSON.toJSONString(""));
+        System.out.println(JSON.toJSONString(" "));
+
+        long timeout = 3500L;
+        int lockExpire = (int) (timeout / 1000);
+        System.out.println(lockExpire);
     }
 }
