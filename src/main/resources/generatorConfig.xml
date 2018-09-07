@@ -71,7 +71,7 @@
                 domainObjectName: 生成的类名, 默认驼峰样式
         -->
         <!--
-        <table tableName="bbs_test" domainObjectName="Test"
+        <table tableName="bbs_test" domainObjectName="TestEntity"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="a_b_c" javaType="Integer" />
 
@@ -79,10 +79,9 @@
             <columnOverride column="f_g_h" javaType="String" jdbcType="VARCHAR" />
         </table>
         -->
-        <table tableName="carrier_package" domainObjectName="CarrierPackage"
+
+        <table tableName="t_menu" domainObjectName="MenuEntity"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <columnOverride column="charge_content" javaType="String" jdbcType="VARCHAR" />
-            <columnOverride column="free_flow_content" javaType="String" jdbcType="VARCHAR" />
         </table>
     </context>
 </generatorConfiguration>
