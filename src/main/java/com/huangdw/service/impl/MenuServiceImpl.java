@@ -23,4 +23,14 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuEntity> queryAll() {
         return menuMapper.selectAll();
     }
+
+    @Override
+    public MenuEntity queryRootMenu() {
+        return menuMapper.selectRootMenu();
+    }
+
+    @Override
+    public List<MenuEntity> queryChildMenus(Integer id) {
+        return menuMapper.queryChildMenus(id);
+    }
 }

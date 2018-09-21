@@ -17,4 +17,19 @@ public interface MenuService {
      * @return
      */
     List<MenuEntity> queryAll();
+
+    /**
+     * 查询根菜单(只有一个)
+     *
+     * @return
+     */
+    MenuEntity queryRootMenu();
+
+    /**
+     * 根据父菜单 ID 查询其子菜单集合
+     *
+     * @param id
+     * @return
+     */
+    List<MenuEntity> queryChildMenus(Integer id);
 }
