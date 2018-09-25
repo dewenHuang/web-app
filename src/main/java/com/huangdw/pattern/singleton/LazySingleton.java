@@ -11,9 +11,9 @@ public class LazySingleton {
 
     private LazySingleton() {}
 
-    public static LazySingleton getInstance() {// 方案一: 同步方法
-        if (null == instance) {// 双重检查锁
-            synchronized (LazySingleton.class) {// 方案二: 同步代码块
+    public static LazySingleton getInstance() {
+        if (null == instance) {// 双重检查锁, 解决运行效率问题
+            synchronized (LazySingleton.class) {// 方案二: 同步代码块, 解决线程安全问题
                 if (null == instance) {
                     instance = new LazySingleton();
                 }
