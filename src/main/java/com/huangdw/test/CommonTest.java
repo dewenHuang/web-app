@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +35,7 @@ public class CommonTest {
         list.add("ef");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
 //        String s = "";
 //        int i = Integer.parseInt(s);
 //        System.out.println(i);
@@ -72,5 +75,19 @@ public class CommonTest {
         long timeout = 3500L;
         int lockExpire = (int) (timeout / 1000);
         System.out.println(lockExpire);
+
+        System.out.println("".equals(new StringBuffer().toString()));
+        System.out.println("");
+
+        System.out.println("".split("\r\n").length);
+        System.out.println("".split("\r\n")[0]);
+
+        String model = "vivo X9";
+        System.out.println(URLEncoder.encode(model, "UTF-8"));
+        System.out.println(URLDecoder.decode("vivo+X9", "UTF-8"));
+
+        List<String> models = new ArrayList<>();
+        models.add("vivo X21i A");
+        System.out.println(models.contains("vivo X21i"));
     }
 }
