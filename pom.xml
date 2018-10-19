@@ -284,6 +284,13 @@
       <version>18.0</version>
     </dependency>
 
+    <!--熔断-->
+    <dependency>
+      <groupId>com.netflix.hystrix</groupId>
+      <artifactId>hystrix-metrics-event-stream</artifactId>
+      <version>1.5.12</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>web-app</finalName>
