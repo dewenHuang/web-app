@@ -6,8 +6,10 @@ import com.huangdw.exception.CommonException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -18,28 +20,35 @@ import java.util.Arrays;
  * @author: huangdw
  * @create: 2018-04-13
  */
+@Order(1)// 值越小优先级越高, 默认最低优先级
 @Aspect
 @Component
 public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的异常，不推荐使用
+
+    /**
+     * 定义一个方法, 用于声明切入点表达式
+     */
+    @Pointcut("execution(* com.huangdw.controller.*Controller.*(..))" +
+            " && @annotation(org.springframework.web.bind.annotation.ResponseBody)")
+    public void pointcut() {}
 
     /**
      * LOGGER
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(XxxExceptionAspect.class);
 
-    @Around("execution(* com.huangdw.controller.*Controller.*(..))" +
-            " && @annotation(org.springframework.web.bind.annotation.ResponseBody)")
-    public Object around(ProceedingJoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
+    @Around("pointcut()")
+    public Object around(ProceedingJoinPoint pjp) {
+        String methodName = pjp.getSignature().getName();
 
         try {
             // 前置通知, 在方法开始执行之前执行
-            LOGGER.debug("The method {} begins with params {} ", methodName, Arrays.asList(joinPoint.getArgs()));
+            LOGGER.debug("The method {} begins with params {} ", methodName, Arrays.asList(pjp.getArgs()));
             // 执行目标方法
-            Object result = joinPoint.proceed();
-            // 返回通知, 在方法执行结束之后执行, 能访问目标方法的返回结果
+            Object result = pjp.proceed();
+            // 返回通知, 在方法正常执行之后执行, 能访问目标方法的返回结果
             LOGGER.debug("The method {} ends with result {}", methodName, result);
-
+            // 返回执行结果
             return result;
         } catch (Throwable throwable) {
             // 异常通知, 在方法抛出异常之后执行
@@ -50,11 +59,12 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
                 LOGGER.error("Catch biz exception, errorCode: {} errorMsg: {}", e.getError().getCode(), e.getErrorMsg(), e);
                 return new CommonResult(e.getError());
             } else {
+                // 未知异常处理
                 LOGGER.error("Catch unknown exception", throwable);
                 return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
         } finally {
-            // 后置通知, 在方法返回结果或者抛出异常之后都会执行, 不能访问目标方法的返回结果
+            // 后置通知, 在方法正常执行或者抛出异常之后都会执行, 不能访问目标方法的返回结果, 一般用于释放资源
             LOGGER.debug("The method {} ends, then need to release resources", methodName);
         }
     }
