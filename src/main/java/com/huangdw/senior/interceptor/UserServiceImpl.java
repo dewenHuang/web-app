@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrUser(long id) {
-        // 调用 UserMapper 的 selectByPrimaryKey 方法得到 UserEntity 转化 UserDTO 并返回
+        // 调用 UserMapper 的 selectById 方法得到 UserEntity 转化 UserDTO 并返回
         return null;
     }
 }
