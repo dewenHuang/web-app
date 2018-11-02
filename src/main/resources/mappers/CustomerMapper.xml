@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huangdw.dao.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.huangdw.entity.Customer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+
+    <!-- 一对多的关系 -->
+    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+    <collection property="tickets" ofType="com.huangdw.entity.Ticket">
+      <id column="tId" property="id"/>
+      <result column="address" property="address"/>
+      <result column="price" property="price"/>
+      <result column="cust_id" property="custId"/>
+    </collection>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, tel
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--注意: t_customer 表和 t_ticket 表中均有 id 字段, 需要使用别名进行区分-->
+  <select id="selectCustomerByName" resultMap="BaseResultMap">
+    select c.*, t.id as tId, t.address, t.price, t.cust_id
+    from t_customer c left join t_ticket t on c.id = t.cust_id
+    where c.name = #{name}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from t_customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.huangdw.entity.Customer" >
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="com.huangdw.entity.Customer" >
+    update t_customer
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
