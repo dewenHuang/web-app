@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huangdw.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.huangdw.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--查询用户购买的商品-->
+  <resultMap id="UserAndItemsResultMap" type="com.huangdw.entity.User">
+    <!--用户信息-->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+
+    <!--订单信息-->
+    <collection property="orders" ofType="com.huangdw.entity.Order">
+      <id column="o_id" property="id" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="number" property="number" jdbcType="VARCHAR" />
+      <result column="note" property="note" jdbcType="VARCHAR" />
+      <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+
+      <!--订单明细-->
+      <collection property="orderDetails" ofType="com.huangdw.entity.OrderDetail">
+        <id column="od_id" property="id" jdbcType="INTEGER" />
+        <result column="order_id" property="orderId" jdbcType="INTEGER" />
+        <result column="item_id" property="itemId" jdbcType="INTEGER" />
+        <result column="item_num" property="itemNum" jdbcType="INTEGER" />
+
+        <!--商品信息-->
+        <association property="item" javaType="com.huangdw.entity.Item">
+          <id column="i_id" property="id" jdbcType="INTEGER" />
+          <result column="i_name" property="name" jdbcType="VARCHAR" />
+          <result column="price" property="price" jdbcType="REAL" />
+          <result column="detail" property="detail" jdbcType="VARCHAR" />
+          <result column="pic" property="pic" jdbcType="VARCHAR" />
+          <result column="i_create_time" property="createTime" jdbcType="TIMESTAMP" />
+        </association>
+      </collection>
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, name, birthday, gender, address
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectUserAndItemsResultMap" resultMap="UserAndItemsResultMap">
+    select u.*,
+      o.id as o_id, o.user_id, o.number, o.note, o.create_time,
+      od.id as od_id, od.order_id, od.item_id, od.item_num,
+      i.id as i_id, i.name as i_name, i.price, i.detail, i.pic, i.create_time as i_create_time
+    from user u
+      left join `order` o on u.id = o.user_id
+      left join order_detail od on o.id = od.order_id
+      left join item i on od.item_id = i.id
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.huangdw.entity.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangdw.entity.User" >
+    update user
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
