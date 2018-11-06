@@ -17,6 +17,6 @@ public class DaoTest extends BaseJunit4Test {
 
     @Test
     public void testDao() {
-        System.out.println(teleCardOrderMapper.selectByPrimaryKey(28L));
+        System.out.println(teleCardOrderMapper.selectById(28L));
     }
 }

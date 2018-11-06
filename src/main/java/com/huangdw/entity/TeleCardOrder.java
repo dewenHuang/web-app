@@ -3,7 +3,12 @@ package com.huangdw.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 电信号卡订单实体
+ */
 public class TeleCardOrder implements Serializable {
+    private static final long serialVersionUID = -4551054189467369413L;
+
     private Long id;
 
     private String orderNo;
@@ -49,8 +54,6 @@ public class TeleCardOrder implements Serializable {
     private Date createTime;
 
     private Date updateTime;
-
-    private static final long serialVersionUID = 1L;
 
     public Long getId() {
         return id;
@@ -238,35 +241,30 @@ public class TeleCardOrder implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", orderNo=").append(orderNo);
-        sb.append(", salesId=").append(salesId);
-        sb.append(", phoneNumber=").append(phoneNumber);
-        sb.append(", custName=").append(custName);
-        sb.append(", custId=").append(custId);
-        sb.append(", consigneeName=").append(consigneeName);
-        sb.append(", consigneePhone=").append(consigneePhone);
-        sb.append(", consigneeAddress=").append(consigneeAddress);
-        sb.append(", consigneePostalcode=").append(consigneePostalcode);
-        sb.append(", provinceCode=").append(provinceCode);
-        sb.append(", cityCode=").append(cityCode);
-        sb.append(", countyCode=").append(countyCode);
-        sb.append(", provinceCodeBelong=").append(provinceCodeBelong);
-        sb.append(", cityCodeBelong=").append(cityCodeBelong);
-        sb.append(", packageId=").append(packageId);
-        sb.append(", status=").append(status);
-        sb.append(", errorCode=").append(errorCode);
-        sb.append(", closeReason=").append(closeReason);
-        sb.append(", teleOrderNo=").append(teleOrderNo);
-        sb.append(", teleCreateTime=").append(teleCreateTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "TeleCardOrder{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", salesId='" + salesId + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", custName='" + custName + '\'' +
+                ", custId='" + custId + '\'' +
+                ", consigneeName='" + consigneeName + '\'' +
+                ", consigneePhone='" + consigneePhone + '\'' +
+                ", consigneeAddress='" + consigneeAddress + '\'' +
+                ", consigneePostalcode='" + consigneePostalcode + '\'' +
+                ", provinceCode='" + provinceCode + '\'' +
+                ", cityCode='" + cityCode + '\'' +
+                ", countyCode='" + countyCode + '\'' +
+                ", provinceCodeBelong='" + provinceCodeBelong + '\'' +
+                ", cityCodeBelong='" + cityCodeBelong + '\'' +
+                ", packageId=" + packageId +
+                ", status=" + status +
+                ", errorCode=" + errorCode +
+                ", closeReason=" + closeReason +
+                ", teleOrderNo='" + teleOrderNo + '\'' +
+                ", teleCreateTime=" + teleCreateTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

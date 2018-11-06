@@ -34,7 +34,7 @@
   </sql>
 
   <!-- 根据主键查询 -->
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     from tele_card_order
@@ -42,33 +42,13 @@
   </select>
 
   <!-- 根据主键删除 -->
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteById" parameterType="java.lang.Long" >
     delete from tele_card_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <!-- 增加 -->
-  <insert id="insert" parameterType="com.huangdw.entity.TeleCardOrder" >
-    insert into tele_card_order (id, order_no, sales_id, 
-      phone_number, cust_name, cust_id, 
-      consignee_name, consignee_phone, consignee_address, 
-      consignee_postalCode, province_code, city_code, 
-      county_code, province_code_belong, city_code_belong, 
-      package_id, status, error_code, 
-      close_reason, tele_order_no, tele_create_time, 
-      create_time, update_time)
-    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{salesId,jdbcType=VARCHAR}, 
-      #{phoneNumber,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, #{custId,jdbcType=VARCHAR}, 
-      #{consigneeName,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR}, #{consigneeAddress,jdbcType=VARCHAR}, 
-      #{consigneePostalcode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
-      #{countyCode,jdbcType=VARCHAR}, #{provinceCodeBelong,jdbcType=VARCHAR}, #{cityCodeBelong,jdbcType=VARCHAR}, 
-      #{packageId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{errorCode,jdbcType=INTEGER}, 
-      #{closeReason,jdbcType=INTEGER}, #{teleOrderNo,jdbcType=VARCHAR}, #{teleCreateTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-  </insert>
-
   <!-- 有选择地增加 -->
-  <insert id="insertSelective" parameterType="com.huangdw.entity.TeleCardOrder" >
+  <insert id="insert" parameterType="com.huangdw.entity.TeleCardOrder" >
     insert into tele_card_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -215,7 +195,7 @@
   </insert>
 
   <!-- 根据主键有选择地修改 -->
-  <update id="updateByPrimaryKeySelective" parameterType="com.huangdw.entity.TeleCardOrder" >
+  <update id="updateById" parameterType="com.huangdw.entity.TeleCardOrder" >
     update tele_card_order
     <set >
       <if test="orderNo != null" >
@@ -285,34 +265,6 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-
-  <!-- 根据主键修改 -->
-  <update id="updateByPrimaryKey" parameterType="com.huangdw.entity.TeleCardOrder" >
-    update tele_card_order
-    set order_no = #{orderNo,jdbcType=VARCHAR},
-      sales_id = #{salesId,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      cust_name = #{custName,jdbcType=VARCHAR},
-      cust_id = #{custId,jdbcType=VARCHAR},
-      consignee_name = #{consigneeName,jdbcType=VARCHAR},
-      consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
-      consignee_address = #{consigneeAddress,jdbcType=VARCHAR},
-      consignee_postalCode = #{consigneePostalcode,jdbcType=VARCHAR},
-      province_code = #{provinceCode,jdbcType=VARCHAR},
-      city_code = #{cityCode,jdbcType=VARCHAR},
-      county_code = #{countyCode,jdbcType=VARCHAR},
-      province_code_belong = #{provinceCodeBelong,jdbcType=VARCHAR},
-      city_code_belong = #{cityCodeBelong,jdbcType=VARCHAR},
-      package_id = #{packageId,jdbcType=BIGINT},
-      status = #{status,jdbcType=INTEGER},
-      error_code = #{errorCode,jdbcType=INTEGER},
-      close_reason = #{closeReason,jdbcType=INTEGER},
-      tele_order_no = #{teleOrderNo,jdbcType=VARCHAR},
-      tele_create_time = #{teleCreateTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
