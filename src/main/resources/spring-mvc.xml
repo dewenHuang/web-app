@@ -43,11 +43,24 @@
         </property>
     </bean>
 
+    <!--配置国际化资源文件-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames" value="messages/message"/>
+    </bean>
+
+    <!--配置 SessionLocaleResolver-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="zh_CN"/>
+    </bean>
+
+    <!--配置 LocaleChangeInterceptor-->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8" />
         <property name="maxUploadSize" value="10485760"/> <!-- 10M -->
         <property name="maxInMemorySize" value="4096" />
-        <property name="defaultEncoding" value="UTF-8" />
     </bean>
 
     <!-- 配置freemarker模板路径 -->
@@ -102,6 +115,16 @@
             <!-- 特定请求的拦截器只能有一个 -->
             <bean class="com.huangdw.senior.interceptor.TestInterceptor" />
         </mvc:interceptor>
+
+        <!--将超链接中 locale 值(zh_CN/en_US)解析成 Locale 对象放入 Session 中, 以后就从 Session 中取得区域信息, 而不依赖于浏览器语言设置-->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+
+        <!--
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="localeChangeInterceptor"/>
+        </mvc:interceptor>
+        -->
     </mvc:interceptors>
 
 </beans>
