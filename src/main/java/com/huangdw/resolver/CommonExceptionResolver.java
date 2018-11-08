@@ -3,7 +3,7 @@ package com.huangdw.resolver;
 import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
-import com.huangdw.exception.CommonException;
+import com.huangdw.exception.CustomGeneralException;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +46,9 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
             // Ajax异步请求，返回Json串
             CommonResult result;
             // 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
-            if (e instanceof CommonException) {
-                CommonException commonException = (CommonException) e;
-                result = new CommonResult(commonException.getError());
+            if (e instanceof CustomGeneralException) {
+                CustomGeneralException customGeneralException = (CustomGeneralException) e;
+                result = new CommonResult(customGeneralException.getError());
             } else if (e instanceof BindException) {
                 BindException bindException = (BindException) e;
                 // 字段绑定错误集合

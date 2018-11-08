@@ -1,15 +1,14 @@
 package com.huangdw.exception;
 
-import com.alibaba.fastjson.JSON;
 import com.huangdw.enums.ErrorEnum;
 
 /**
  * @program: my-controller-app
- * @description: 公共异常类
+ * @description: 自定义通用异常类
  * @author: huangdw
  * @create: 2018-04-13
  */
-public class CommonException extends RuntimeException {
+public class CustomGeneralException extends RuntimeException {
 
     /**
      * serialVersionUID
@@ -26,13 +25,13 @@ public class CommonException extends RuntimeException {
      */
     private String errorMsg;
 
-    public CommonException(ErrorEnum error) { // 使用默认文案
+    public CustomGeneralException(ErrorEnum error) { // 使用默认文案
         super(error.getMsg());
         this.error = error;
         this.errorMsg = error.getMsg();
     }
 
-    public CommonException(ErrorEnum error, String errorMsg) { // 重写文案
+    public CustomGeneralException(ErrorEnum error, String errorMsg) { // 重写文案
         super("[" + error.getMsg() + "]->" + errorMsg);
         this.error = error;
         this.errorMsg = errorMsg;

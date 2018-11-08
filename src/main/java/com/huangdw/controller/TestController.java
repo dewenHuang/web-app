@@ -2,7 +2,7 @@ package com.huangdw.controller;
 
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
-import com.huangdw.exception.CommonException;
+import com.huangdw.exception.CustomGeneralException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,14 +30,14 @@ public class TestController {
     @RequestMapping("/excWithSpringMvc")
 //    @ResponseBody
     public CommonResult<String> excWithSpringMvc() throws Exception {
-        throw new CommonException(XxxErrorEnum.USERNAME_ERROR, "用户名含有特殊字符");
+        throw new CustomGeneralException(XxxErrorEnum.USERNAME_ERROR, "用户名含有特殊字符");
     }
 
     @RequestMapping("/excWithSpringAop")
     @ResponseBody
     public CommonResult<String> excWithSpringAop() {
         LOGGER.info("Xxx method begin, password: {}", "123456");
-        throw new CommonException(XxxErrorEnum.PASSWORD_ERROR, "用户密码少于8位");
+        throw new CustomGeneralException(XxxErrorEnum.PASSWORD_ERROR, "用户密码少于8位");
     }
 
     /**
