@@ -60,7 +60,6 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8" />
         <property name="maxUploadSize" value="10485760"/> <!-- 10M -->
-        <property name="maxInMemorySize" value="4096" />
     </bean>
 
     <!-- 配置freemarker模板路径 -->
@@ -110,8 +109,8 @@
         <bean name="baseInterceptor" class="com.huangdw.senior.interceptor.BaseInterceptor" />
         <!--<bean name="testInterceptor" class="com.huangdw.senior.interceptor.TestInterceptor" />-->
         <mvc:interceptor>
-            <!-- 对/test.do请求进行拦截 -->
-            <mvc:mapping path="/test.do"/>
+            <!-- 对/test请求进行拦截 -->
+            <mvc:mapping path="/test"/>
             <!-- 特定请求的拦截器只能有一个 -->
             <bean class="com.huangdw.senior.interceptor.TestInterceptor" />
         </mvc:interceptor>
