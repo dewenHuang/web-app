@@ -18,6 +18,7 @@ public enum XxxErrorEnum implements ErrorEnum {
     // 参数错误3xxx
     PARAMETER_NULL(3000, "参数为空"),
     PARAMETER_ILLEGAL(3001, "参数非法"),
+    PARAMETER_BIND_ERROR(3002, "参数绑定错误"),
     // 系统错误
     SYSTEM_ERROR(9000, "服务器异常，请稍后重试");
 

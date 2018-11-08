@@ -1,6 +1,7 @@
 package com.huangdw.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,7 @@ public class Item implements Serializable {
 
     private String name;
 
+    @NumberFormat(pattern = "#,###.#")
     private Float price;
 
     private String detail;

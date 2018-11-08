@@ -24,10 +24,24 @@
     </bean>
 
     <!--两个标准配置-->
-    <!--将SpringMVC不能处理的请求交给Tomcat-->
+    <!--因为 SpringMVC 拦截了所有请求, 所以需要将静态资源请求交给 Tomcat(Web/Servlet 容器) 处理-->
     <mvc:default-servlet-handler />
-    <!--能支持SpringMVC更高级的一些功能，JSR303校验，@DateTimeFormat注解，快捷的Ajax。。。-->
-    <mvc:annotation-driven />
+    <!--
+        三种情况下, 需要添加如下标签:
+        1. 当为了访问 WEB-INF 目录下某些简单页面为加入 mvc:view-controller 标签时
+        2. 当为了处理静态资源问题而加入 mvc:default-servlet-handler 标签时
+        3. 当使用自定义类型转换器时
+    -->
+    <mvc:annotation-driven conversion-service="conversionService" />
+
+    <!--配置 ConversionService-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="employeeConverter" />
+            </set>
+        </property>
+    </bean>
 
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

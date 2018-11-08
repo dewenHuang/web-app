@@ -1,7 +1,7 @@
 package com.huangdw.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.huangdw.enums.ErrorEnum;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 
@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author: huangdw
  * @create: 2018-04-13
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommonResult<T> implements Serializable {
     /**
      * serialVersionUID
@@ -30,7 +31,6 @@ public class CommonResult<T> implements Serializable {
     /**
      * 业务数据
      */
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
     private T data;
 
     /**

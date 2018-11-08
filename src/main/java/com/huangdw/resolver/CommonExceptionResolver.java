@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
 import com.huangdw.exception.CommonException;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * @program: my-controller-app
@@ -44,8 +47,21 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
             CommonResult result;
             // 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
             if (e instanceof CommonException) {
-                CommonException exception = (CommonException) e;
-                result = new CommonResult(exception.getError());
+                CommonException commonException = (CommonException) e;
+                result = new CommonResult(commonException.getError());
+            } else if (e instanceof BindException) {
+                BindException bindException = (BindException) e;
+                // 字段绑定错误集合
+                List<FieldError> fieldErrors = bindException.getBindingResult().getFieldErrors();
+
+                StringBuilder sb = new StringBuilder();
+                if (CollectionUtils.isNotEmpty(fieldErrors)) {
+                    for (FieldError fieldError : fieldErrors) {
+                        sb.append(fieldError.getDefaultMessage());
+                        sb.append("\n");
+                    }
+                }
+                result = new CommonResult(XxxErrorEnum.PARAMETER_BIND_ERROR, sb.toString());
             } else {
                 result = new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
