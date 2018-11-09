@@ -3,7 +3,8 @@ package com.huangdw.resolver;
 import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
-import com.huangdw.exception.CustomGeneralException;
+import com.huangdw.exception.CustomException;
+import com.huangdw.util.IpUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,20 +23,21 @@ import java.util.List;
 
 /**
  * @program: my-controller-app
- * @description: 统一异常处理
+ * @description: 通用异常解析器
  * @author: huangdw
  * @create: 2018-04-13
  */
 @Component
-public class CommonExceptionResolver implements HandlerExceptionResolver, Ordered { // 可以拦截Handler映射、参数绑定以及目标方法执行时发生的异常，推荐使用
+public class GeneralExceptionResolver implements HandlerExceptionResolver, Ordered { // 可以拦截Handler映射、参数绑定以及目标方法执行时发生的异常，推荐使用
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonExceptionResolver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralExceptionResolver.class);
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
-
-        // 打印错误日志
-        LOGGER.warn("请求 " + request.getRequestURL() + " 异常！", e);
+        // 客户端 IP
+        String clientIp = IpUtil.getClientIp(request);
+        // 请求 URI
+        String requestUri = request.getRequestURI();
 
         // 判断是否Ajax请求（如果是Ajax请求，则请求类型为XMLHttpRequest）
         if (!(request.getHeader("Accept").contains("application/json") ||
@@ -46,9 +48,11 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
             // Ajax异步请求，返回Json串
             CommonResult result;
             // 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
-            if (e instanceof CustomGeneralException) {
-                CustomGeneralException customGeneralException = (CustomGeneralException) e;
-                result = new CommonResult(customGeneralException.getError());
+            if (e instanceof CustomException) {
+                CustomException customException = (CustomException) e;
+                LOGGER.error("An handler custom exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, customException.getParamDesc(), e);
+
+                result = new CommonResult(customException.getError());
             } else if (e instanceof BindException) {
                 BindException bindException = (BindException) e;
                 // 字段绑定错误集合
@@ -61,8 +65,11 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
                         sb.append("\n");
                     }
                 }
-                result = new CommonResult(XxxErrorEnum.PARAMETER_BIND_ERROR, sb.toString());
+                String errMsg = sb.toString();
+
+                result = new CommonResult(XxxErrorEnum.PARAMETER_BIND_ERROR, errMsg.substring(0, errMsg.lastIndexOf("\n")));
             } else {
+                LOGGER.error("An handler unknown exception occurred, ip: {}, uri: {}", clientIp, requestUri, e);
                 result = new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
 

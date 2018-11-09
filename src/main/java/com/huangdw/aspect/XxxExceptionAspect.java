@@ -2,7 +2,7 @@ package com.huangdw.aspect;
 
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.XxxErrorEnum;
-import com.huangdw.exception.CustomGeneralException;
+import com.huangdw.exception.CustomException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -53,10 +53,10 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
         } catch (Throwable throwable) {
             // 异常通知, 在方法抛出异常之后执行
 //            LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
-            if (throwable instanceof CustomGeneralException) {
+            if (throwable instanceof CustomException) {
                 // 特定异常处理
-                CustomGeneralException e = (CustomGeneralException) throwable;
-                LOGGER.error("Catch biz exception, errorCode: {} errorMsg: {}", e.getError().getCode(), e.getErrorMsg(), e);
+                CustomException e = (CustomException) throwable;
+                LOGGER.error("Catch biz exception, errorCode: {} errorMsg: {}", e.getError().getCode(), e.getError().getMsg(), e);
                 return new CommonResult(e.getError());
             } else {
                 // 未知异常处理
