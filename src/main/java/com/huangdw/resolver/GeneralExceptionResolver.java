@@ -48,12 +48,12 @@ public class GeneralExceptionResolver implements HandlerExceptionResolver, Order
             // Ajax异步请求，返回Json串
             CommonResult result;
             // 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
-            if (e instanceof CustomException) {
+            if (e instanceof CustomException) {// 2.业务异常
                 CustomException customException = (CustomException) e;
                 LOGGER.error("An handler custom exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, customException.getParamDesc(), e);
 
                 result = new CommonResult(customException.getError());
-            } else if (e instanceof BindException) {
+            } else if (e instanceof BindException) {// 1.客户端异常需要细化
                 BindException bindException = (BindException) e;
                 // 字段绑定错误集合
                 List<FieldError> fieldErrors = bindException.getBindingResult().getFieldErrors();
@@ -68,7 +68,7 @@ public class GeneralExceptionResolver implements HandlerExceptionResolver, Order
                 String errMsg = sb.toString();
 
                 result = new CommonResult(XxxErrorEnum.PARAMETER_BIND_ERROR, errMsg.substring(0, errMsg.lastIndexOf("\n")));
-            } else {
+            } else {// 3.服务器异常
                 LOGGER.error("An handler unknown exception occurred, ip: {}, uri: {}", clientIp, requestUri, e);
                 result = new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
