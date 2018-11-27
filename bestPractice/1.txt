@@ -1,0 +1,62 @@
+IDEA快捷键：
+Alt+Shift+Up/Down，上/下移代码行
+Ctrl+Alt+O，优化import
+Ctrl+Alt+L，格式化代码
+Shift+Enter，任意换行
+Ctrl+F1，显示错误
+Alt+Enter，快速修复(可以用来导入单个包)
+Alt+/，基本提示
+Ctrl+Q，查看成员变量、方法说明
+Ctrl+F/Ctrl+Shift+F，在当前窗口或全工程中查找
+Ctrl+N/Ctrl+Shift+N，打开类或资源
+Ctrl+X，删除行
+Ctrl+D，复制行
+Ctrl+Tab，切换标签页
+Ctrl+Alt+left/right，退回/前进到上一个操作的地方
+Ctrl+E/Ctrl+Shift+E，显示最近打开过的或编辑过的文件列表
+Ctrl+Alt+T，用if、while、try catch来围绕选中的代码行
+Shift+F6，重构-重命名
+Ctrl+F12，显示当前文件的结构(可以直接键入字母,来快速定位)
+Ctrl+F7，查询当前元素在当前文件中的第一个引用，然后按F3可以挑战下一个引用
+Ctrl+Q，看到当前方法的声明
+Ctrl+P，显示参数信息
+Ctrl+O，选择父类的方法进行重写/实现
+Ctrl+Alt+v，自动填充变量
+Ctrl+Alt+b，查找接口的实现类
+Ctrl+h，查看类或接口的继承关系
+
+cd /opt/logs/snnetpay
+less snnetpay.log.2017-04-17-10.log(less snnetpay.log)
+/log信息，内部消息编号，订单号，交易凭证，线程号或者向前翻页：f/空格键（向后翻页：b）
+按 n(next) 会继续找，大写的 N 则是往回(上)找
+
+交易/业务：transaction(tran)/business(biz)
+serialNumber=SN(序列号，流水号)
+
+Vo(含多个Dto对象,有时用一个大的Dto来代替)->Dto->Do(Bo,包含多个Po对象,)->Po(Entity/Dmo,跟数据库表的字段一一对应,需要实现序列化接口)
+
+创建、删除索引（idx_xxx/UK_xxx/FK_xxx/PRIMARY）的语法：
+ALTER TABLE table_name ADD INDEX index_name (column_list)
+ALTER TABLE table_name ADD UNIQUE index_name (column_list)
+ALTER TABLE table_name DROP INDEX index_name
+
+一个表只有一个主键索引(肯定是唯一索引)，名称默认为PRIMARY
+ALTER TABLE table_name ADD PRIMARY KEY (column_list)
+ALTER TABLE table_name DROP PRIMARY KEY
+
+反馈状态变更：
+提交未回复->回复（正常）未查看->查看未评价->评价已结束
+提交未回复->回复（忽略）未查看->查看已结束
+
+分页：
+pageNum/pages total pageSize 其中可以指定pageSize和pageNum
+
+:q(未修改) :q!(放弃修改) :wq(保存修改-读写文件) :wq!(保存修改-只读文件)
+
+撤销：
+1、文件未提交到暂存区，直接git checkout -- 文件名
+2、文件提交到了暂存区，但未提交到版本库，先git reset HEAD 文件名再git checkout -- 文件名
+恢复：
+1、单个文件：git checkout id 文件名
+2、整个项目：git reset --hard id/git reset --hard HEAD^/git reset --hard HEAD~2
+

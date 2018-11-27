@@ -1,0 +1,32 @@
+useAffectedRows默认false，此时update语句返回匹配条数m；
+useAffectedRows改为true，此时update语句返回实际修改条数n；
+m>=n。
+
+事务隔离级别：
+Isolation.READ_UNCOMMITTED: 读取未提交数据(会出现脏读, 不可重复读和幻读) 基本不使用
+Isolation.READ_COMMITTED: 读取已提交数据(会出现不可重复读和幻读) Oracle默认隔离级别 第2级别
+Isolation.REPEATABLE_READ: 可重复读(会出现幻读) MySQL默认隔离级别 第3级别
+Isolation.SERIALIZABLE: 串行化(安全) 基本不使用
+脏读：一个事务读取了另一个事务“未提交”的数据，而这个数据有可能会回滚。
+不可重复读：在同一事务中，两次相同的查询返回的结果不同，因为两次读取之间，第二个事务“更新并提交”了数据。
+幻读：事务A更新了表中的全部数据行，事物B向表中“插入并提交”了一行新数据，此时事务A再读时，发现还有没有更新的数据行，好像发生幻觉一样。
+
+事务传播行为：
+Propagation.REQUIRED: 如果当前存在事务，则加入该事务；如果当前没有事务，就新建一个事务。这是默认值。【联合成功】
+Propagation.SUPPORTS: 如果当前存在事务，则加入该事务；如果当前没有事务，就以非事务方式执行。
+Propagation.MANDATORY: 如果当前存在事务，则加入该事务；如果当前没有事务，就抛出异常。
+Propagation.REQUIRES_NEW: 新建事务，如果当前存在事务，把当前事务挂起。【隔离失败】
+Propagation.NOT_SUPPORTED: 以非事务方式执行，如果当前存在事务，就把当前事务挂起。
+Propagation.NEVER: 以非事务方式执行，如果当前存在事务，则抛出异常。
+Propagation.NESTED: 如果当前存在事务，则创建一个事务作为当前事务的“嵌套”事务来执行；如果当前没有事务，则进行与Propagation.REQUIRED类似的操作。【联合成功、隔离失败】
+
+1、like %keyword 索引失效，可以使用反向索引；【当需要搜索email列中.com结尾的字符串且希望走索引时候，可以考虑数据库存储一个反向的字段email_reverse并建立索引，然后email_reverse like reverse('%.com')】
+2、like keyword% 索引有效；
+3、like %keyword% 索引失效，也无法使用反向索引。
+
+返回页面的VO需要添加@JsonInclude(JsonInclude.Include.NON_NULL)注解，过滤值为null的字段。
+
+页面--展示层--Facade层---服务层--DAO层
+    VO      BO        DTO      DO
+其中VO和DO的命名如：*VO.java/*DO.java，DTO的命名与用途有关，如：*Query.java，表示存储了一个查询条件。
+

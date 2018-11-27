@@ -1,0 +1,41 @@
+加载顺序：
+JVM参数->配置中心->properties文件（单元测试不走配置中心，需要在properties文件中指定）
+
+动态代理->环绕通知，SpringMVC拦截器，Redis分布式锁，MQ消息队列，HttpClientUtil类，SpringMVC统一异常处理，SSM整合环境搭建，Session共享，RedisUtil类，Redis集群搭建，MD5加密，AES对称加密，RSA非对称加密
+
+父类实现Serializable接口并生成serialVersionUID字段，子类直接生成serialVersionUID字段即可
+
+cd /data/tomcat/tomcat-sdkservice/logs
+ls
+tail -f catalina.out
+
+producer->send
+receiver->consume
+
+SSL->TLS
+机密性：SSL 协议使用密钥加密通信数据。(信息窃听-信息加密)
+可靠性：服务器和客户都会被认证，客户的认证是可选的。(信息劫持-身份验证)
+完整性：SSL 协议会对传送的数据进行完整性检查。(信息篡改-完整性校验)
+
+在controller层校验前端参数，并抛出参数异常（ParamException）；在service层校验dao层返回值，并抛出业务异常（BizException）；一般在dao层对异常不做处理
+
+Ajax 提交, 第二种支持文件上传.
+使用 serialize() 对表单进行序列化, data: $("formId").serialize()...
+使用 FormData() 对表单进行封装, var formData = new FormData($("formId")[0]); data: formData...
+
+netstat -aon|findstr <端口号>
+tasklist|findstr <PID>	任务管理器禁止进程
+taskkill /pid <PID> /f	命令行禁止进程
+
+www.baidu.com LIKE '%.com' 不走索引
+moc.udiab.www LIKE 'moc.%' 走索引，即email_reverse LIKE reverse('%.com')
+
+Apache/Nginx/IIS: Web 服务器, 可以处理浏览器发出的 HTTP 请求, 默认端口为 80, 响应静态资源(如 HTML);
+Tomcat: Web/Servlet 容器, 是运行在 Apache 之上的应用服务器, 是用于部署 Web 应用/Servlet 的, 响应动态资源(如 JSP->Servlet).
+
+浏览器->请求->Web服务器->Web容器->Listener requestInitialized()->Filter chain.doFilter() before->Interceptor preHandler()->执行Controller逻辑->Interceptor postHandler()
+->Listener sessionCreated()->渲染JSP视图->Interceptor afterCompletion()->Filter chain.doFilter() after->响应->Listener requestDestroyed()->Web容器->Web服务器->浏览器
+
+session在Interceptor的postHandle()方法执行之后渲染JSP视图之前创建, 在超时或者手动调用其invalidate()方法时销毁.
+application在Web容器(Tomcat)启动的时候初始化(再初始化Filter), 在Web容器(Tomcat)停止的时候销毁(先销毁Filter).
+

@@ -1,0 +1,48 @@
+视频教程：尚硅谷SSM整合、Spring注解开发、动力节点JavaWeb、Redis、Shiro、Linux、设计模式、数据结构、面试题、尚硅谷JavaWeb视频教程及综合案例、尚硅谷RBAC权限模型、尚硅谷Git&GitHub、尚硅谷Jenkins
+
+req->resp	param->result
+定义方法时，打印“XXX方法开始执行”和请求参数；调用接口时，打印“请求XXX接口成功”和响应结果
+begin->end; start->finish
+
+execXxx(),showXxx()[popXxx()/jmpXxx()]
+doXxx(),toXxx()
+
+RabbitMQ->下单; 分布式锁->领取特权(添加登录校验注解); RateLimiter->限流
+
+vivo:message-producer -> producer/deliver -> 在MessageService接口中定义sendMessage()方法，在MessageService接口实现类中注入MessageDeliver对象deliver，在sendMessage()方法实现中调用deliver.send()方法发送消息至队列中
+vivo:message-receiver -> consumer/handler -> MessageHandler.onMessage()
+
+在开发高并发系统时有三把利器用来保护系统：缓存、降级和限流。
+
+idx_colName UK_colName PK_colName
+
+class="hello-world"(CSS) id="txt_hello_world"(JS) name="helloWorld"(向后台传值)
+
+1.基础阶段
+Java8新特性->JUC->NIO->Linux(动力节点)
+3.JavaWEB
+Cookie->Session->Filter(装饰模式)/Interceptor(在Spring架构的程序中,优先使用)->Listener(观察者模式)->SSM之Adapter设计模式(动力节点)
+4.JavaEE
+Spring4->SpringMVC->MyBatis->SSM高级整合->JPA->SpringData->SSSP整合&分页->Redis->Shiro->MySQL高级->RBAC权限实战->Spring注解->SpringBoot全套->SpringCloud->Git&GitHub->Jenkins
+
+Redis->RabbitMQ->ElasticSearch->定时任务->SpringSecurity->Zookeeper/Dubbo->SpringCloud
+SSM->Spring、SpringMVC、JPA&SpringData->SpringBoot、SpringMVC、MyBatis、Zookeeper/Dubbo或者SpringCloud
+
+设计模式、数据结构与算法
+
+枚举：name(key)/value -> code/msg(desc)
+
+wait()会释放锁，sleep()不会释放锁
+
+x++ 和 x=x+1 包括3个操作：读取x的值，进行加1操作，写入新的值。
+
+StringBuilder -> StringBuffer（线程安全）
+HashMap -> ConcurrentHashMap（线程安全）
+ArrayList -> CopyOnWriteArrayList（线程安全，适合并发迭代操作多时使用）
+
+拒绝--失败（异常）、超时--成功
+
+执行（远程调用）失败--抛出异常--降级处理
+执行（远程调用）超时--在规定时间内没有抛出异常，也没有返回结果--降级处理
+执行（远程调用）成功--返回结果
+
