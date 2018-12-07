@@ -13,7 +13,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
  * @create: 2018-04-20
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml") // 参数只有一个, 可以省略{}
-@TransactionConfiguration(transactionManager = "transactionManager") // defaultRollback默认true
-public class BaseJunit4Test extends AbstractTransactionalJUnit4SpringContextTests {
+@ContextConfiguration(locations = "classpath:spring.xml") // 参数只有一个, 可以省略{}
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+public class BaseJunit4Test extends AbstractTransactionalJUnit4SpringContextTests {// AbstractTransactionalJUnit4SpringContextTests类中有@Transactional注解
 }

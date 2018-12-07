@@ -20,7 +20,7 @@
     <aop:aspectj-autoproxy proxy-target-class="true" />
 
     <!--导入按模块分解的 Spring 配置文件-->
-    <import resource="spring-datasource.xml" />
+    <import resource="classpath:spring-datasource.xml" />
 
     <!--通过此工具类获取Spring上下文中的Bean对象-->
     <bean class="com.huangdw.util.SpringContextUtil" />

@@ -12,7 +12,6 @@
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
-        <target>System.err</target>
     </appender>
 
     <!-- 访问日志 appender -->

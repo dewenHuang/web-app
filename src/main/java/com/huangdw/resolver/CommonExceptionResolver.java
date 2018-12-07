@@ -28,9 +28,9 @@ import java.util.List;
  * @create: 2018-04-13
  */
 @Component
-public class GeneralExceptionResolver implements HandlerExceptionResolver, Ordered { // 可以拦截Handler映射、参数绑定以及目标方法执行时发生的异常，推荐使用
+public class CommonExceptionResolver implements HandlerExceptionResolver, Ordered { // 可以拦截Handler映射、参数绑定以及目标方法执行时发生的异常，推荐使用
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralExceptionResolver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonExceptionResolver.class);
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
