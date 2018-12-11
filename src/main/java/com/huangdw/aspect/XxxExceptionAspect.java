@@ -51,8 +51,8 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
             // 返回执行结果
             return result;
         } catch (Throwable throwable) {
-            // 异常通知, 在方法抛出异常之后执行
-//            LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(joinPoint.getArgs()), throwable);
+            // 异常通知, 在方法抛出异常之后执行, 一般在此处返回通用结果Dto
+//            LOGGER.error("The method {} with params {} occurs exception", methodName, Arrays.asList(pjp.getArgs()), throwable);
             if (throwable instanceof CustomException) {
                 // 特定异常处理
                 CustomException e = (CustomException) throwable;
@@ -64,7 +64,7 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
                 return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
             }
         } finally {
-            // 后置通知, 在方法正常执行或者抛出异常之后都会执行, 不能访问目标方法的返回结果, 一般用于释放资源
+            // 后置通知, 在方法正常执行或者抛出异常之后都会执行, 不能访问目标方法的返回结果, 一般用于释放资源/打印超时请求等
             LOGGER.debug("The method {} ends, then need to release resources", methodName);
         }
     }

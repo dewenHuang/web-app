@@ -3,6 +3,8 @@ package com.huangdw.util;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * IP 工具类
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class IpUtil {
     /**
-     * 获取请求客户端 IP
+     * 获取客户端 IP
      *
      * @param request
      * @return
@@ -46,5 +48,18 @@ public class IpUtil {
         }
 
         return ip;
+    }
+
+    /**
+     * 获取服务器端 IP
+     *
+     * @return
+     */
+    public static String getServerIp() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            return null;
+        }
     }
 }
