@@ -1,4 +1,4 @@
-package com.huangdw.util;
+package com.huangdw.utils;
 
 import org.apache.commons.lang.StringUtils;
 
