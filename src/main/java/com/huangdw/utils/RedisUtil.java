@@ -248,7 +248,11 @@ public class RedisUtil {
      * @return
      */
     public static Boolean expire(RedisTemplate redisTemplate, Object key, long ttl) {
-        return redisTemplate.expire(key, ttl, TimeUnit.SECONDS);
+        if (ttl > -1) {
+            return redisTemplate.expire(key, ttl, TimeUnit.SECONDS);
+        } else {// 永不过期
+            return redisTemplate.persist(key);
+        }
     }
 
     /**
