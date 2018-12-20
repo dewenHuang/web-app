@@ -8,48 +8,41 @@ package com.huangdw.service;
  */
 public interface LockService {
     /**
-     * 非阻塞锁
+     * 尝试获取锁，立即返回
      *
-     * @param lockKey
-     * @param requestId
-     * @return
+     * @param lockKey 锁键
+     * @param identifier 锁标识，应该是一个随机字符串，比如用 UUID 生成
+     * @param expireTime 锁过期时间
+     * @return 是否成功获得锁
      */
-    boolean tryLock(String lockKey, String requestId);
+    boolean tryLock(String lockKey, String identifier, long expireTime);
 
     /**
-     * 非阻塞锁 + 锁过期时间
+     * 尝试获取锁，超时返回，常用
      *
-     * @param lockKey
-     * @param requestId
-     * @param expireTime
-     * @return
+     * @param lockKey 锁键
+     * @param identifier 锁标识
+     * @param expireTime 锁过期时间
+     * @param timeout 获取锁超时时间，单位为毫秒
+     * @return 是否成功获得锁
      */
-    boolean tryLock(String lockKey, String requestId, long expireTime);
+    boolean tryLock(String lockKey, String identifier, long expireTime, long timeout);
 
     /**
-     * 阻塞锁
+     * 以阻塞方式的获取锁，直到成功获得锁为止
      *
-     * @param lockKey
-     * @param requestId
+     * @param lockKey 锁键
+     * @param identifier 锁标识
+     * @param expireTime 锁过期时间
      */
-    void lock(String lockKey, String requestId);
-
-    /**
-     * 阻塞锁 + 获取锁阻塞时间
-     *
-     * @param lockKey
-     * @param requestId
-     * @param blockTime
-     * @return
-     */
-    boolean lock(String lockKey, String requestId, long blockTime);
+    void lock(String lockKey, String identifier, long expireTime);
 
     /**
      * 解锁
      *
-     * @param lockKey
-     * @param requestId
-     * @return
+     * @param lockKey 锁键
+     * @param identifier 锁标识
+     * @return 是否成功释放锁
      */
-    boolean unlock(String lockKey, String requestId);
+    boolean unlock(String lockKey, String identifier);
 }

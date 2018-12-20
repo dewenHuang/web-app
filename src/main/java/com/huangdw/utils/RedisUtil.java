@@ -256,6 +256,17 @@ public class RedisUtil {
     }
 
     /**
+     * 以秒为单位返回 key 的剩余过期时间
+     *
+     * @param redisTemplate
+     * @param key
+     * @return
+     */
+    public static Long ttl(RedisTemplate redisTemplate, Object key) {
+        return redisTemplate.getExpire(key);
+    }
+
+    /**
      * 获取指定 key 的值
      *
      * @param redisTemplate

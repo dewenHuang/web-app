@@ -1,10 +1,13 @@
 package com.huangdw.service.impl;
 
 import com.huangdw.service.LockService;
+import org.apache.commons.collections.CollectionUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @project: web-app
@@ -14,19 +17,9 @@ import java.util.Collections;
  */
 public class RedisLockServiceImpl implements LockService {
     /**
-     * 默认锁前缀, xxx为项目名称
+     * 锁前缀, xxx为项目名称
      */
-    private static final String DEFAULT_LOCK_PREFIX = "xxx:lock_";
-
-    /**
-     * 默认锁过期时间, 1000毫秒
-     */
-    private static final long DEFAULT_LOCK_EXPIRE_TIME = 1000L;
-
-    /**
-     * 默认睡眠时间, 100毫秒
-     */
-    private static final long DEFAULT_SLEEP_TIME = 100L;
+    private static final String LOCK_PREFIX = "xxx:lock_";
 
     /**
      * 加锁成功
@@ -44,18 +37,21 @@ public class RedisLockServiceImpl implements LockService {
     private static final String SET_IF_NOT_EXIST = "NX";
 
     /**
-     * 指定锁过期时间单位为毫秒
+     * 指定锁的有效时间单位为秒
      */
-    private static final String SET_WITH_EXPIRE_TIME = "PX";
+    private static final String EXPIRE_TIME_UNIT_SEC = "EX";
 
+    /**
+     * Redis 客户端连接池
+     */
     private static final JedisPool jedisPool = new JedisPool("127.0.0.1", 6379);
 
     @Override
-    public boolean tryLock(String lockKey, String requestId) {
+    public boolean tryLock(String lockKey, String identifier, long expireTime) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
-            String result = jedis.set(DEFAULT_LOCK_PREFIX + lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, DEFAULT_LOCK_EXPIRE_TIME);
+            jedis = jedisPool.getResource();// 客户端应该通过注入或者参数传进来
+            String result = jedis.set(LOCK_PREFIX + lockKey, identifier, SET_IF_NOT_EXIST, EXPIRE_TIME_UNIT_SEC, expireTime);
             if(LOCK_SUCCESS.equals(result)) {
                 return true;
             }
@@ -70,61 +66,19 @@ public class RedisLockServiceImpl implements LockService {
     }
 
     @Override
-    public boolean tryLock(String lockKey, String requestId, long expireTime) {
+    public boolean tryLock(String lockKey, String identifier, long expireTime, long timeout) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            String result = jedis.set(DEFAULT_LOCK_PREFIX + lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
-            if(LOCK_SUCCESS.equals(result)) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void lock(String lockKey, String requestId) {
-        Jedis jedis = null;
-        try {
-            jedis = jedisPool.getResource();
-            for (;;) {
-                String result = jedis.set(DEFAULT_LOCK_PREFIX + lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, DEFAULT_LOCK_EXPIRE_TIME);
-                if(LOCK_SUCCESS.equals(result)) {
-                    break;
-                }
-
-                //防止一直消耗 CPU
-                Thread.sleep(DEFAULT_SLEEP_TIME);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
-        }
-    }
-
-    @Override
-    public boolean lock(String lockKey, String requestId, long blockTime) {
-        Jedis jedis = null;
-        try {
-            jedis = jedisPool.getResource();
-            while (blockTime >= 0) {
-                String result = jedis.set(DEFAULT_LOCK_PREFIX + lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, DEFAULT_LOCK_EXPIRE_TIME);
+            long end = System.currentTimeMillis() + timeout;
+            while (System.currentTimeMillis() < end) {
+                String result = jedis.set(LOCK_PREFIX + lockKey, identifier, SET_IF_NOT_EXIST, EXPIRE_TIME_UNIT_SEC, expireTime);
                 if(LOCK_SUCCESS.equals(result)) {
                     return true;
                 }
 
-                //防止一直消耗 CPU
-                Thread.sleep(DEFAULT_SLEEP_TIME);
-                blockTime -= DEFAULT_SLEEP_TIME;
+                // 防止一直消耗 CPU
+                Thread.sleep(100);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,17 +91,60 @@ public class RedisLockServiceImpl implements LockService {
     }
 
     @Override
-    public boolean unlock(String lockKey, String requestId) {
+    public void lock(String lockKey, String identifier, long expireTime) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-            Object result = jedis.eval(script, Collections.singletonList(DEFAULT_LOCK_PREFIX + lockKey), Collections.singletonList(requestId));
-            if (UNLOCK_SUCCESS.equals(result)) { // 此处用的 Long 类型的 equals() 方法
-                return true;
+            for (;;) {// while (true)
+                String result = jedis.set(LOCK_PREFIX + lockKey, identifier, SET_IF_NOT_EXIST, EXPIRE_TIME_UNIT_SEC, expireTime);
+                if(LOCK_SUCCESS.equals(result)) {
+                    break;
+                }
+
+                // 防止一直消耗 CPU
+                Thread.sleep(100);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    @Override
+    public boolean unlock(String lockKey, String identifier) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            Object result = jedis.eval(script, Collections.singletonList(LOCK_PREFIX + lockKey), Collections.singletonList(identifier));
+            if (UNLOCK_SUCCESS.equals(result)) {// 此处用的 Long 类型的 equals 方法
+                return true;
+            }
+        } catch (Exception e) {
+            // Redis不支持EVAL命令，使用降级方式解锁
+            while (true) {
+                // 监视锁键
+                jedis.watch(LOCK_PREFIX + lockKey);
+                // 通过加锁方法返回的锁标识identifier判断是不是该锁，若是该锁，则释放锁
+                if (identifier.equals(jedis.get(LOCK_PREFIX + lockKey))) {
+                    Transaction transaction = jedis.multi();
+                    try {
+                        transaction.del(LOCK_PREFIX + lockKey);
+                        List<Object> execResults = transaction.exec();// 不需要再执行 UNWATCH 了
+                        if (CollectionUtils.isEmpty(execResults)) {
+                            continue;
+                        }
+                        return true;
+                    } catch (Exception ex) {
+                        transaction.discard();// 不需要再执行 UNWATCH 了
+                        continue;
+                    }
+                }
+                jedis.unwatch();// 取消监视锁键
+                break;
+            }
         } finally {
             if (jedis != null) {
                 jedis.close();
