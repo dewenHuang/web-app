@@ -1,4 +1,4 @@
-package com.huangdw.utils;
+package com.huangdw.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -1,7 +1,7 @@
 package com.huangdw.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.huangdw.utils.IpUtil;
+import com.huangdw.util.IpUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
