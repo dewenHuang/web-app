@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.huangdw.dto.CommonResult;
-import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.enums.RespEnum;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +101,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         // 以下是未通过登录校验的处理
         ResultTypeEnum resultType = loginControl != null ? loginControl.resultType() : defaultResultType;
         if (ResultTypeEnum.JSON == resultType) { // 返回 JSON 串
-            CommonResult result = new CommonResult(XxxErrorEnum.USER_NOT_LOGIN);
+            CommonResult result = CommonResult.fail(RespEnum.USER_NOT_LOGIN);
             response.setContentType("application/json;charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.write(JSON.toJSONString(result));

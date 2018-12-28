@@ -1,7 +1,7 @@
 package com.huangdw.aspect;
 
 import com.huangdw.dto.CommonResult;
-import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.enums.RespEnum;
 import com.huangdw.exception.CustomException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -57,11 +57,11 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
                 // 特定异常处理
                 CustomException e = (CustomException) throwable;
                 LOGGER.error("Catch biz exception, errorCode: {} errorMsg: {}", e.getError().getCode(), e.getError().getMsg(), e);
-                return new CommonResult(e.getError());
+                return CommonResult.fail(e.getError());
             } else {
                 // 未知异常处理
                 LOGGER.error("Catch unknown exception", throwable);
-                return new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
+                return CommonResult.fail(RespEnum.SERVER_FAIL);
             }
         } finally {
             // 后置通知, 在方法正常执行或者抛出异常之后都会执行, 不能访问目标方法的返回结果, 一般用于释放资源/打印超时请求等

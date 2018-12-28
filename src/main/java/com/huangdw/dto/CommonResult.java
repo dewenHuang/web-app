@@ -1,7 +1,8 @@
 package com.huangdw.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.huangdw.enums.ErrorEnum;
+import com.huangdw.enums.RespEnum;
 
 import java.io.Serializable;
 
@@ -11,85 +12,94 @@ import java.io.Serializable;
  * @author: huangdw
  * @create: 2018-04-13
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CommonResult<T> implements Serializable {
-    /**
-     * serialVersionUID
-     */
+public class CommonResult implements Serializable {
     private static final long serialVersionUID = 7784661672912742703L;
 
-    /**
-     * 返回码
-     */
-    private int code = 0;
-
-    /**
-     * 错误消息
-     */
+    /** 返回码 */
+    private Integer code;
+    /** 返回消息 */
     private String msg;
+    /** 业务数据 */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Object data;
 
-    /**
-     * 业务数据
-     */
-    private T data;
+    /** 响应枚举 */
+    @JsonIgnore
+    private RespEnum respEnum;
 
-    /**
-     * 请求成功
-     */
     public CommonResult() {
     }
 
+    public CommonResult(RespEnum respEnum, Object data) {
+        this.code = respEnum.getCode();
+        this.msg = respEnum.getMsg();
+        this.data = data;
+        this.respEnum = respEnum;
+    }
+
     /**
-     * 请求成功（带数据）
+     * 成功
+     *
+     * @return
+     */
+    public static CommonResult success() {
+        return new CommonResult(RespEnum.OK, null);
+    }
+
+    /**
+     * 成功
      *
      * @param data
+     * @return
      */
-    public CommonResult(T data) {
-        this.data = data;
+    public static CommonResult success(Object data) {
+        return new CommonResult(RespEnum.OK, data);
     }
 
     /**
-     * 请求失败
+     * 失败
      *
-     * @param errorEnum
+     * @param respEnum
+     * @return
      */
-    public CommonResult(ErrorEnum errorEnum) {
-        this.code = errorEnum.getCode();
-        this.msg = errorEnum.getMsg();
+    public static CommonResult fail(RespEnum respEnum) {
+        return new CommonResult(respEnum, null);
     }
 
     /**
-     * 请求失败（重写错误消息）
+     * 失败
      *
-     * @param errorEnum
-     * @param errMsg
+     * @param respEnum
+     * @param data
+     * @return
      */
-    public CommonResult(ErrorEnum errorEnum, String errMsg) {
-        this.code = errorEnum.getCode();
-        this.msg = errMsg;
+    public static CommonResult fail(RespEnum respEnum, Object data) {
+        return new CommonResult(respEnum, data);
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public RespEnum getRespEnum() {
+        return respEnum;
+    }
+
+    @Override
+    public String toString() {
+        return "CommonResult{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", respEnum=" + respEnum +
+                '}';
     }
 }

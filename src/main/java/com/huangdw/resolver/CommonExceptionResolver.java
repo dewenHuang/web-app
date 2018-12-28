@@ -2,7 +2,7 @@ package com.huangdw.resolver;
 
 import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
-import com.huangdw.enums.XxxErrorEnum;
+import com.huangdw.enums.RespEnum;
 import com.huangdw.exception.CustomException;
 import com.huangdw.util.IpUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -14,12 +14,14 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: my-controller-app
@@ -38,6 +40,8 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
         String clientIp = IpUtil.getClientIp(request);
         // 请求 URI
         String requestUri = request.getRequestURI();
+        // 请求参数
+        Map<String, Object> params = WebUtils.getParametersStartingWith(request, null);
 
         // 判断是否Ajax请求（如果是Ajax请求，则请求类型为XMLHttpRequest）
         if (!(request.getHeader("Accept").contains("application/json") ||
@@ -50,9 +54,9 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
             // 为安全起见，只有业务异常我们对前端可见，否则统一归为系统异常
             if (e instanceof CustomException) {// 2.业务异常
                 CustomException customException = (CustomException) e;
-                LOGGER.error("An handler custom exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, customException.getParamDesc(), e);
+                LOGGER.error("An handler custom exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, params, e);
 
-                result = new CommonResult(customException.getError());
+                result = CommonResult.fail(customException.getError());
             } else if (e instanceof BindException) {// 1.客户端异常需要细化
                 BindException bindException = (BindException) e;
                 // 字段绑定错误集合
@@ -67,10 +71,10 @@ public class CommonExceptionResolver implements HandlerExceptionResolver, Ordere
                 }
                 String errMsg = sb.toString();
 
-                result = new CommonResult(XxxErrorEnum.PARAMETER_BIND_ERROR, errMsg.substring(0, errMsg.lastIndexOf("\n")));
+                result = CommonResult.fail(RespEnum.REQUEST_BAD, errMsg.substring(0, errMsg.lastIndexOf("\n")));
             } else {// 3.服务器异常
                 LOGGER.error("An handler unknown exception occurred, ip: {}, uri: {}", clientIp, requestUri, e);
-                result = new CommonResult(XxxErrorEnum.SYSTEM_ERROR);
+                result = CommonResult.fail(RespEnum.SERVER_FAIL);
             }
 
             try {
