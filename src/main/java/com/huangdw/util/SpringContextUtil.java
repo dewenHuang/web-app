@@ -3,6 +3,7 @@ package com.huangdw.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.Assert;
 
 /**
  * @program: my-controller-app
@@ -12,16 +13,15 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class SpringContextUtil implements ApplicationContextAware {
 
-    private static ApplicationContext applicationContext = null;
+    private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (SpringContextUtil.applicationContext == null) {
-            SpringContextUtil.applicationContext = applicationContext;
-        }
+        SpringContextUtil.applicationContext = applicationContext;
     }
 
-    public static ApplicationContext getApplicationContext() {
+    public static ApplicationContext getContext() {// 这不是一个常规的 Getter 方法
+        checkApplicationContext();
         return applicationContext;
     }
 
@@ -32,8 +32,9 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @return
      * @throws BeansException
      */
-    public static Object getBean(String name) {
-        return getApplicationContext().getBean(name);
+    public static Object getBean(String name) {// 手动对返回值进行强转
+        checkApplicationContext();
+        return applicationContext.getBean(name);
     }
 
     /**
@@ -44,7 +45,8 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @return
      */
     public static <T> T getBean(Class<T> clazz) {
-        return getApplicationContext().getBean(clazz);
+        checkApplicationContext();
+        return applicationContext.getBean(clazz);
     }
 
     /**
@@ -56,6 +58,12 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @return
      */
     public static <T> T getBean(String name, Class<T> clazz) {
-        return getApplicationContext().getBean(name, clazz);
+        checkApplicationContext();
+        return applicationContext.getBean(name, clazz);
+    }
+
+    private static void checkApplicationContext() {
+        Assert.notNull(applicationContext,
+                "applicaitonContext未注入,请在applicationContext.xml中定义SpringContextUtil");
     }
 }
