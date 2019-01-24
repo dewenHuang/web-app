@@ -8,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,15 +36,20 @@ public class GlobalExceptionHandler {
         Map<String, Object> params = WebUtils.getParametersStartingWith(request, null);
         LOGGER.error("An handler exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, params, ex);
 
-        // 通用结果
-        CommonResult result = RequestUtil.getResult(ex);
+        // 1、Web前端返回 CommonResult
+//        return RequestUtil.getResult(ex);
 
+        // 2、Admin后台返回 ModalAndView 跳转错误页面
+        CommonResult result = RequestUtil.getResult(ex);
         if (RequestUtil.isAjaxRequest(request)) {
             // Ajax 异步请求
-            return CommonResult.fail(result.getRespEnum());
+            return result;
         } else {
             // 传统同步请求
-            return CommonResult.fail(result.getRespEnum());// Web前端返回 CommonResult，Admin后台返回 ModalAndView 跳转错误页面
+            Map<String, Object> model = new HashMap<>();
+            model.put("errCode", result.getCode());
+            model.put("errMsg", result.getMsg());
+            return new ModelAndView("error", model);
         }
     }
 }

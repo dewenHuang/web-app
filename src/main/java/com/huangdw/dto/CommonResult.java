@@ -1,6 +1,5 @@
 package com.huangdw.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.huangdw.enums.RespEnum;
 
@@ -23,10 +22,6 @@ public class CommonResult implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object data;
 
-    /** 响应枚举 */
-    @JsonIgnore
-    private RespEnum respEnum;
-
     public CommonResult() {
     }
 
@@ -34,7 +29,6 @@ public class CommonResult implements Serializable {
         this.code = respEnum.getCode();
         this.msg = respEnum.getMsg();
         this.data = data;
-        this.respEnum = respEnum;
     }
 
     /**
@@ -47,7 +41,7 @@ public class CommonResult implements Serializable {
     }
 
     /**
-     * 成功
+     * 成功（带业务数据）
      *
      * @param data
      * @return
@@ -67,7 +61,7 @@ public class CommonResult implements Serializable {
     }
 
     /**
-     * 失败
+     * 失败（带业务数据）
      *
      * @param respEnum
      * @param data
@@ -89,17 +83,12 @@ public class CommonResult implements Serializable {
         return data;
     }
 
-    public RespEnum getRespEnum() {
-        return respEnum;
-    }
-
     @Override
     public String toString() {
         return "CommonResult{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", data=" + data +
-                ", respEnum=" + respEnum +
                 '}';
     }
 }
