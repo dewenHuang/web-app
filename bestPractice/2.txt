@@ -27,6 +27,6 @@ Propagation.NESTED: 如果当前存在事务，则创建一个事务作为当前
 返回页面的VO需要添加@JsonInclude(JsonInclude.Include.NON_NULL)注解，过滤值为null的字段。
 
 页面--展示层--Facade层---服务层--DAO层
-    VO      BO        DTO      DO
-其中VO和DO的命名如：*VO.java/*DO.java，DTO的命名与用途有关，如：*Query.java，表示存储了一个查询条件。
+    VO      BO        DTO      PO
+其中VO和PO的命名如：*VO.java/*PO.java，DTO的命名与用途有关，如：*Param.java和*Result.Java，表示存储了一个请求参数和响应结果。
 

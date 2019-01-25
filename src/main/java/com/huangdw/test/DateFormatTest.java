@@ -1,8 +1,6 @@
 package com.huangdw.test;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.commons.lang.time.FastDateFormat;
-import org.apache.commons.lang3.time.FastDateParser;
 import org.junit.Test;
 
 import java.util.Date;
@@ -25,7 +23,8 @@ public class DateFormatTest {
         String timeStr = DateFormatUtils.ISO_TIME_NO_T_FORMAT.format(new Date()); // HH:mm:ss
         System.out.println(timeStr);
 
-        String dateTimeStr = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(new Date());
+//        String dateTimeStr = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(new Date());
+        String dateTimeStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
         System.out.println(dateTimeStr);
     }
 }

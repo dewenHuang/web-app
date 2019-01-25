@@ -17,7 +17,7 @@
     </context:component-scan>
 
     <!--定义aop Aspect自动代理-->
-    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
 
     <!--导入按模块分解的 Spring 配置文件-->
     <import resource="classpath:spring-datasource.xml" />

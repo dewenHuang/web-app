@@ -31,6 +31,8 @@ public class GuavaTest {
 
         assertEquals(3, result.size());
         System.out.println(result);
+        assertEquals(7, ages.size());
+        System.out.println(ages);
     }
 
     @Test
@@ -45,5 +47,6 @@ public class GuavaTest {
         });
 
         System.out.println(result);
+        System.out.println(ages);
     }
 }

@@ -3,6 +3,8 @@ package com.huangdw.service;
 import com.google.common.util.concurrent.RateLimiter;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @project: web-app
  * @description: 限流服务
@@ -21,7 +23,8 @@ public class AccessLimitService {
      * @return
      */
     public boolean tryAcquire() {
-        return limiter.tryAcquire();
+//        return limiter.tryAcquire();
+        return limiter.tryAcquire(1, TimeUnit.SECONDS);
     }
 
     /**
