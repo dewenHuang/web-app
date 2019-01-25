@@ -16,10 +16,10 @@ Date: 2018-09-07 11:33:03
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for t_menu
+-- Table structure for sys_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `t_menu`;
-CREATE TABLE `t_menu` (
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父ID',
@@ -28,11 +28,11 @@ CREATE TABLE `t_menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
 
 -- ----------------------------
--- Records of t_menu
+-- Records of sys_menu
 -- ----------------------------
-INSERT INTO `t_menu` VALUES ('1', '系统菜单', '0', '');
-INSERT INTO `t_menu` VALUES ('2', '控制面板', '1', '');
-INSERT INTO `t_menu` VALUES ('3', '权限管理', '1', '');
-INSERT INTO `t_menu` VALUES ('4', '用户维护', '3', '');
-INSERT INTO `t_menu` VALUES ('5', '角色维护', '3', '');
-INSERT INTO `t_menu` VALUES ('6', '许可维护', '3', '');
+INSERT INTO `sys_menu` VALUES ('1', '系统菜单', '0', '');
+INSERT INTO `sys_menu` VALUES ('2', '控制面板', '1', '');
+INSERT INTO `sys_menu` VALUES ('3', '权限管理', '1', '');
+INSERT INTO `sys_menu` VALUES ('4', '用户维护', '3', '');
+INSERT INTO `sys_menu` VALUES ('5', '角色维护', '3', '');
+INSERT INTO `sys_menu` VALUES ('6', '许可维护', '3', '');

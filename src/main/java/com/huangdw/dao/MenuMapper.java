@@ -19,7 +19,7 @@ public interface MenuMapper {
      *
      * @return
      */
-    @Select("select * from t_menu")
+    @Select("select * from sys_menu")
     List<MenuEntity> selectAll();
 
     /**
@@ -27,7 +27,7 @@ public interface MenuMapper {
      *
      * @return
      */
-    @Select("select * from t_menu where parent_id = 0")
+    @Select("select * from sys_menu where parent_id = 0")
     MenuEntity selectRootMenu();
 
     /**
@@ -36,6 +36,6 @@ public interface MenuMapper {
      * @param id
      * @return
      */
-    @Select("select * from t_menu where parent_id = #{id}")
+    @Select("select * from sys_menu where parent_id = #{id}")
     List<MenuEntity> queryChildMenus(Integer id);
 }

@@ -13,15 +13,15 @@
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_menu
+    from sys_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from t_menu
+    delete from sys_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.huangdw.entity.MenuEntity" >
-    insert into t_menu
+    insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -52,7 +52,7 @@
     </trim>
   </insert>
   <update id="updateById" parameterType="com.huangdw.entity.MenuEntity" >
-    update t_menu
+    update sys_menu
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
