@@ -14,13 +14,13 @@
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:datasource.properties</value>
+                <value>classpath:db.properties</value>
             </list>
         </property>
     </bean>
 
     <!--多个配置文件用逗号隔开或者用*进行模糊匹配，Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)-->
-    <!--<context:property-placeholder location="datasource.properties" />-->
+    <!--<context:property-placeholder location="db.properties" />-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <!--JDBC驱动类-->
