@@ -1,0 +1,38 @@
+常用的实体类: Po\Dto\Vo
+Po -> Dto -> Vo, 如果模型不复杂, 只需定义Po和Dto; 如果前端需要显示的数据结构比较复杂, 可以把多个Dto组装成一个Vo返回(在Web项目中添加一个facade层, 用于调用多个service, 并将多个Dto组装成Vo返回).
+
+btn-info 编辑
+btn-danger 删除
+btn-success 添加/启用 -> label-primary 是
+btn-primary 搜索
+btn-warning 停用 -> label-default 否
+btn-default
+
+最佳实践&项目实战&开发工具&框架插件
+
+实践-》理论-》实践-》总结
+
+com.bbkmobile.iqoo.foreign.common.observer.VivoAppConfigObserver#update
+
+系统元信息表(为每个系统分配一个应用key来作为系统的标识, 并分配一个专属于该系统的密钥secret)
+id	title		secret	appkey
+1	支付系统	111111	PAY
+2	商户APP	UI	222222	APP-UI
+3	企业平台	333333	PLATFORM
+提前使用安全的手段把secret和appkey交给客户端, 然后与客户端约定, 每次发送请求中携带一个签名参数(比如用"sign"命名), 其值由"发送的数据+客户端手里的密钥"做不可逆加密(比如MD5)而得到的一个字符串. 当服务器接收这个请求时, 取出请求中的appkey去数据库查询对应的secret密钥, 然后按照和客户端约定好的规则生成一个签名, 最后和签名参数的值进行比较就知道请求是否通过安全性验证了.
+
+命令 SET resource-name anystring NX EX max-lock-time 是一种在 Redis 中实现锁的简单方法。
+
+如果在执行 WATCH 命令之后， EXEC 命令或 DISCARD 命令先被执行了的话，那么就不需要再执行 UNWATCH 了。
+因为 EXEC 命令会执行事务，因此 WATCH 命令的效果已经产生了；而 DISCARD 命令在取消事务的同时也会取消所有对 key 的监视，因此这两个命令执行之后，就没有必要执行 UNWATCH 了。
+
+如果需要满足一致性（C、P），则刷新缓存，即直接从 DB 读取数据写入 Redis 并返回结果；
+否则只需满足最终一致性（A、P），则不刷新缓存，即先从 Redis 读取数据，如果为 null 则先判断是否使用分布式锁再从 DB 读取数据写入 Redis（如果使用分布式锁并获得锁，则查 DB 写 Redis；未获得锁，则间隔 200 毫秒循环从 Redis 取值）；如果不为 null 则判断命中时是否续期；最终返回结果；
+其中，在写入 Redis 之前对结果数据判断是否为 null，如果为 null 则判断空值是否存储 Redis（不存储 Redis 直接返回 null，存储 Redis 前需要将缓存结果转换为一个自定义的缓存空对象）；如果不为 null 则直接写入 Redis。
+
+select - from - where - group by - having - order by - limit [offset,] (rows)
+from - where - group by - having - select - order by - limit [offset,] (rows)
+
+git push origin HEAD:refs/for/branch_sonar_20190111
+
+clean package -P dev -D maven.test.skip=true

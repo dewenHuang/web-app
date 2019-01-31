@@ -1,0 +1,33 @@
+跳转列表页: /emps GET
+跳转添加页: /emp GET
+执行添加: /emp POST
+跳转编辑页: /emp/{id} GET
+执行编辑: /emp PUT
+执行删除: /emp/{id} DELETE
+
+$.ajax({
+    url: "${pageContext.request.contextPath}/emp/",
+    type: "POST",
+    data: $("#app form").serialize() + "&_method=PUT",
+    success: function (result) {
+        alert("编辑成功!");
+    }
+});
+
+$.ajax({
+    url: "${pageContext.request.contextPath}/emp/ + id",
+    type: "POST",
+	data: {_method="DELETE"},
+    success: function (result) {
+        alert("删除成功!");
+    }
+});
+
+NoSuchRequestHandlingMethodException/NoHandlerFoundException(404, 请求方法找不到) -> HttpRequestMethodNotSupportedException(405, 请求方式不允许) -> HttpMessageNotReadableException/MissingServletRequestParameterException/TypeMismatchException(400, 请求语法不正确) - > CustomException(自定义业务异常) -> SYSTEM_ERROR(500, 服务器异常)
+
+Linux: LF, Windows: CRLF
+#提交时转换为LF，检出时不转换
+git config --global core.autocrlf input
+#拒绝提交包含混合换行符的文件
+git config --global core.safecrlf true
+注意: 提前修改IDE的默认换行符, 和Linux环境保持一致.
