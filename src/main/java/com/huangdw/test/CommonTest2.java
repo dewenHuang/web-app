@@ -2,6 +2,9 @@ package com.huangdw.test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -53,7 +56,31 @@ public class CommonTest2 {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(createLinkString(map, true, true));
+    public static boolean isMsInTimeRange(long ms, String beginTime, String endTime) throws ParseException {
+        Date d = new Date(ms);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begin = df.parse(beginTime);
+        Date end = df.parse(endTime);
+        return d.after(begin) && d.before(end);
+    }
+
+    public static String convertMsToTime(long ms) throws ParseException {
+        Date d = new Date(ms);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(d);
+    }
+
+    public static void main(String[] args) throws ParseException {
+//        System.out.println(createLinkString(map, true, true));
+
+//        System.out.println(isMsInTimeRange(10832080, "2016-07-07 14:09:49", "2016-07-07 22:58:51"));
+//        System.out.println(convertMsToTime(10832080));
+
+        int i = 1;
+        Integer i2 = 1;
+        Integer j = 127;
+        Integer j2 = 127;
+        System.out.println(i == i2);
+        System.out.println(j == j2);// true，128结果就是false
     }
 }

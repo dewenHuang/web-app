@@ -28,7 +28,7 @@
     <mvc:default-servlet-handler />
     <!--
         三种情况下, 需要添加如下标签:
-        1. 当为了访问 WEB-INF 目录下某些简单页面为加入 mvc:view-controller 标签时
+        1. 当为了访问 WEB-INF 目录下某些简单页面而加入 mvc:view-controller 标签时
         2. 当为了处理静态资源问题而加入 mvc:default-servlet-handler 标签时
         3. 当使用自定义类型转换器时
     -->
