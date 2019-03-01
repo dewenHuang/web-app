@@ -9,20 +9,18 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <description>Spring 配置, 核心点(数据源, 与 MyBatis 的整合, 事务控制)</description>
-
     <!--自动扫描且扫描除@Controller之外的所有注解-->
     <context:component-scan base-package="com.huangdw">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
     <!--定义aop Aspect自动代理-->
     <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
 
-    <!--导入按模块分解的 Spring 配置文件-->
-    <import resource="classpath:spring-mybatis.xml" />
+    <!--导入按模块分解的Spring配置文件-->
+    <import resource="classpath:spring/spring-mybatis.xml"/>
 
     <!--通过此工具类获取Spring上下文中的Bean对象-->
-    <bean class="com.huangdw.util.SpringContextUtil" />
+    <bean class="com.huangdw.util.SpringContextUtil"/>
 
 </beans>

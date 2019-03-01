@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds">
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <!--上下文名称-->
+    <contextName>myAppName</contextName><!--比如：web-app，用于区分不同应用程序的记录-->
 
     <!-- 定义参数 -->
     <property name="log.level" value="debug" />
@@ -47,7 +49,7 @@
     </appender>
 
     <!-- 生产环境用info -->
-    <logger name="com.huangdw.test" level="${log.level}">
+    <logger name="com.huangdw.test" level="${log.level}"><!--如果level未设置，则继承上级的日志级别；如果additivity未设置，默认为true，将此logger的打印信息向上级传递-->
         <appender-ref ref="ACCESS" />
         <appender-ref ref="ERROR" />
     </logger>

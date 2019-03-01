@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <!--导入数据库连接属性配置-->
-    <properties resource="datasource.properties" />
+    <properties resource="db.properties" />
 
     <!--指定特定数据库的jdbc驱动jar包的位置-->
     <classPathEntry location="${db.driverLocation}"/>
@@ -46,7 +46,7 @@
         </javaModelGenerator>
 
         <!--mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
-        <sqlMapGenerator targetPackage="mappers" targetProject="./src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -75,19 +75,14 @@
         </table>
         -->
 
-        <table tableName="user" domainObjectName="User"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <columnOverride column="gender" javaType="Integer" />
-        </table>
-        <table tableName="item" domainObjectName="Item"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <columnOverride column="detail" javaType="String" jdbcType="VARCHAR" />
-        </table>
-        <table tableName="order" domainObjectName="Order"
+        <table tableName="t_phone_time" domainObjectName="PhoneTime"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
         </table>
-        <table tableName="order_detail" domainObjectName="OrderDetail"
+        <table tableName="t_phone_total_time" domainObjectName="PhoneTotalTime"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="on_total_time" javaType="String" jdbcType="VARCHAR" />
+            <columnOverride column="off_total_time" javaType="String" jdbcType="VARCHAR" />
+            <columnOverride column="card_total_time" javaType="String" jdbcType="VARCHAR" />
         </table>
     </context>
 </generatorConfiguration>

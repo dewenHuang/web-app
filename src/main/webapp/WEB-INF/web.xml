@@ -57,7 +57,7 @@
 
     <!--监听 controller 容器的启动和关闭-->
     <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class><!--可选-->
     </listener>
 
     <!--将 controller 容器和 spring 容器进行整合的监听器-->
@@ -66,7 +66,7 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-context.xml</param-value>
+        <param-value>classpath:spring/spring-context.xml</param-value><!--1.省略-->
     </context-param>
 
     <!--配置 DispatcherServlet-->
@@ -76,7 +76,7 @@
         <!--指定 SpringMVC 配置文件的位置和名称-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-mvc.xml</param-value>
+            <param-value>classpath:spring/spring-mvc.xml</param-value><!--2.此处写spring-*.xml，或者一个导入了各个模块配置文件的XML文件-->
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

@@ -20,7 +20,7 @@
     </bean>
 
     <!--多个配置文件用逗号隔开或者用*进行模糊匹配，Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)-->
-    <!--<context:property-placeholder location="db.properties" />-->
+    <!--<context:property-placeholder location="classpath:db.properties"/>-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <!--JDBC驱动类-->
@@ -60,36 +60,36 @@
         <property name="maxOpenPreparedStatements" value="${db.maxOpenPreparedStatements}"/>
 
         <!-- 对于超过removeAbandonedTimeout秒未调用close()进行归还的连接，强制回收 -->
-        <property name="removeAbandoned" value="${db.removeAbandoned}" />
+        <property name="removeAbandoned" value="${db.removeAbandoned}"/>
         <!-- 超时时间限制（默认为300秒，调整为1800） -->
-        <property name="removeAbandonedTimeout" value="${db.removeAbandonedTimeout}" />
+        <property name="removeAbandonedTimeout" value="${db.removeAbandonedTimeout}"/>
         <!-- 当连接被回收时打印程序的stack traces日志 -->
-        <property name="logAbandoned" value="${db.logAbandoned}" />
+        <property name="logAbandoned" value="${db.logAbandoned}"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
         <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 扫描entity包 使用别名 -->
-        <property name="typeAliasesPackage" value="com.huangdw.entity" />
+        <property name="typeAliasesPackage" value="com.huangdw.entity"/>
         <!-- 扫描sql配置文件:mapper需要的xml文件 -->
-        <property name="mapperLocations" value="classpath:mappers/*.xml" />
+        <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>
 
     <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/><!--可以省略，因为只使用了一个DataSource-->
         <!-- 给出需要扫描Dao接口包 -->
         <property name="basePackage" value="com.huangdw.dao"/>
     </bean>
 
     <!--配置一个可以执行批量操作的sqlSession-->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
-        <constructor-arg name="executorType" value="BATCH" />
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="executorType" value="BATCH"/>
     </bean>
 
     <!-- 配置事务管理器(mybatis采用的是JDBC的事务管理器) -->
@@ -98,8 +98,8 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 配置基于 @Transactional 的声明式事务 -->
-    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+    <!-- 配置基于 @Transactional 的声明式事务，基于CGLIB类代理（只能将注解放置在实现类上），默认基于JDK动态代理（可以将注解放置在接口或实现类上） -->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
 
     <!--配置基于 <tx> 命名空间的声明式事务, 配置事务增强, 事务如何切入-->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
