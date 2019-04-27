@@ -1,5 +1,6 @@
 package com.huangdw.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.util.IpUtil;
 import com.huangdw.util.RequestUtil;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 统一异常处理器
+ * 全局异常处理器
  *
  * @author Devin
  * @date 2018/11/13
@@ -30,13 +31,17 @@ public class GlobalExceptionHandler {
     public Object handleException(Exception ex, HttpServletRequest request) {
         // 客户端 IP
         String clientIp = IpUtil.getClientIp(request);
+        // 服务端 IP
+        String serverIp = IpUtil.getServerIp();
         // 请求 URI
         String requestUri = request.getRequestURI();
         // 请求参数
         Map<String, Object> params = WebUtils.getParametersStartingWith(request, null);
-        LOGGER.error("An handler exception occurred, ip: {}, uri: {}, param: {}", clientIp, requestUri, params, ex);
 
-        // 1、Web前端返回 CommonResult
+        // 打印错误日志
+        LOGGER.error("An handler exception occurred, clientIp: {}, serverIp: {}, uri: {}, param: {}", clientIp, serverIp, requestUri, JSON.toJSONString(params), ex);
+
+        // 1、Web前端（同步Get请求）返回 CommonResult
 //        return RequestUtil.getResult(ex);
 
         // 2、Admin后台返回 ModalAndView 跳转错误页面

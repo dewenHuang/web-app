@@ -1,5 +1,7 @@
 package com.huangdw.test;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
@@ -76,11 +78,24 @@ public class CommonTest2 {
 //        System.out.println(isMsInTimeRange(10832080, "2016-07-07 14:09:49", "2016-07-07 22:58:51"));
 //        System.out.println(convertMsToTime(10832080));
 
-        int i = 1;
-        Integer i2 = 1;
-        Integer j = 127;
-        Integer j2 = 127;
-        System.out.println(i == i2);
-        System.out.println(j == j2);// true，128结果就是false
+//        int i = 1;
+//        Integer i2 = 1;
+//        Integer j = 127;
+//        Integer j2 = 127;
+//        System.out.println(i == i2);
+//        System.out.println(j == j2);// true，128结果就是false
+
+        Object obj = null;
+        Integer i3 = (Integer) obj;
+        System.out.println(null == i3);
+
+        String s1 = null;
+        String s2 = "";
+        String s3 = " ";
+        String s4 = "  ";
+        System.out.println(StringUtils.isBlank(s1));
+        System.out.println(StringUtils.isBlank(s2));
+        System.out.println(StringUtils.isBlank(s3));
+        System.out.println(StringUtils.isBlank(s4));
     }
 }

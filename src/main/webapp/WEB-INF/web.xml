@@ -57,7 +57,7 @@
 
     <!--监听 controller 容器的启动和关闭-->
     <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class><!--可选-->
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
     <!--将 controller 容器和 spring 容器进行整合的监听器-->
@@ -66,7 +66,7 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-context.xml</param-value><!--1.省略-->
+        <param-value>classpath:spring/spring-context.xml</param-value>
     </context-param>
 
     <!--配置 DispatcherServlet-->
@@ -76,7 +76,12 @@
         <!--指定 SpringMVC 配置文件的位置和名称-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/spring-mvc.xml</param-value><!--2.此处写spring-*.xml，或者一个导入了各个模块配置文件的XML文件-->
+            <param-value>classpath:spring/spring-mvc.xml</param-value>
+        </init-param>
+        <!--便于在统一异常处理中捕获404异常-->
+        <init-param>
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -94,7 +99,12 @@
     <listener>
         <listener-class>com.huangdw.senior.listener.TestSessionListener</listener-class>
     </listener>
-
+    <!-- 通过throwExceptionIfNoHandlerFound设置，已经可以处理404异常了
+    <error-page>
+        <error-code>404</error-code>
+        <location>/resources/resourceNotExists.html</location>
+    </error-page>
+    -->
     <session-config>
         <!-- 1 分钟后 Session 超时, 自动销毁 -->
         <session-timeout>1</session-timeout>

@@ -1,8 +1,10 @@
 package com.huangdw.aspect;
 
+import com.alibaba.fastjson.JSON;
 import com.huangdw.dto.CommonResult;
 import com.huangdw.enums.RespEnum;
 import com.huangdw.exception.CustomException;
+import com.huangdw.util.IpUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.WebUtils;
 
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @program: my-controller-app
@@ -23,7 +29,7 @@ import java.util.Arrays;
 @Order(1)// 值越小优先级越高, 默认最低优先级
 @Aspect
 @Component
-public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的异常，不推荐使用
+public class XxxExceptionAspect {// 只能拦截目标方法执行时发生的异常，不推荐使用
 
     /**
      * 定义一个方法, 用于声明切入点表达式
@@ -39,15 +45,27 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
 
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint pjp) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        // 客户端IP
+        String clientIp = IpUtil.getClientIp(request);
+        // 请求URI
+        String requestURI = request.getRequestURI();
+        // 请求参数
+        Map<String, Object> params = WebUtils.getParametersStartingWith(request, null);
+
+        // 类名
+        String typeName = pjp.getSignature().getDeclaringTypeName();
+        // 方法名
         String methodName = pjp.getSignature().getName();
 
         try {
             // 前置通知, 在方法开始执行之前执行
-            LOGGER.debug("The method {} begins with params {} ", methodName, Arrays.asList(pjp.getArgs()));
+            LOGGER.debug("The method {} begins with params {} ", typeName + "#" + methodName, JSON.toJSONString(params));// 打印方法开始日志
             // 执行目标方法
             Object result = pjp.proceed();
             // 返回通知, 在方法正常执行之后执行, 能访问目标方法的返回结果
-            LOGGER.debug("The method {} ends with result {}", methodName, result);
+            LOGGER.debug("The method {} ends with result {}", typeName + "#" + methodName, JSON.toJSONString(result));// 如果方法抛出异常也要打印结束日志，可以放在finally中打印
             // 返回执行结果
             return result;
         } catch (Throwable throwable) {
@@ -65,7 +83,7 @@ public class XxxExceptionAspect { // 只能拦截目标方法执行时发生的�
             }
         } finally {
             // 后置通知, 在方法正常执行或者抛出异常之后都会执行, 不能访问目标方法的返回结果, 一般用于释放资源/打印超时请求等
-            LOGGER.debug("The method {} ends, then need to release resources", methodName);
+            LOGGER.debug("The method {} ends, then need to release resources", typeName + "#" + methodName);
         }
     }
 }

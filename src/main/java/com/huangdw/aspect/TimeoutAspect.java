@@ -48,10 +48,10 @@ public class TimeoutAspect {
             // 前置通知
             stopWatch.start();
             result = joinPoint.proceed();
-            stopWatch.stop();
             // 返回通知, 可以访问返回结果result
         } finally {
             // 后置通知, 无论是否发生异常都会执行
+            stopWatch.stop();
             if (stopWatch.getTotalTimeMillis() > 200) {
                 LOGGER.warn("An handler executes timeout, clientIp: {}, serverIp: {}, uri: {}, elapsedTime: {}ms, params: {}, result: {}",
                         clientIp, serverIp, uri, stopWatch.getTotalTimeMillis(), parameters, JSON.toJSONString(result));

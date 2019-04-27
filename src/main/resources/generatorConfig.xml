@@ -75,14 +75,8 @@
         </table>
         -->
 
-        <table tableName="t_phone_time" domainObjectName="PhoneTime"
+        <table tableName="sys_operate_log" domainObjectName="SysOperateLog"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
-        <table tableName="t_phone_total_time" domainObjectName="PhoneTotalTime"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <columnOverride column="on_total_time" javaType="String" jdbcType="VARCHAR" />
-            <columnOverride column="off_total_time" javaType="String" jdbcType="VARCHAR" />
-            <columnOverride column="card_total_time" javaType="String" jdbcType="VARCHAR" />
         </table>
     </context>
 </generatorConfiguration>

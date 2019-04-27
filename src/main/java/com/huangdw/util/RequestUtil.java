@@ -7,7 +7,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,7 +37,7 @@ public class RequestUtil {
      */
     public static CommonResult getResult(Exception ex) {
         RespEnum error;
-        if (ex instanceof NoSuchRequestHandlingMethodException) {
+        if (ex instanceof NoHandlerFoundException) {
             error = RespEnum.REQUEST_NOT_FOUND;
         } else if (ex instanceof HttpRequestMethodNotSupportedException) {
             error = RespEnum.REQUEST_METHOD_NOT_ALLOWED;
