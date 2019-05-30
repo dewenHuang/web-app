@@ -11,10 +11,12 @@ public enum RespEnum {
     CLIENT_ERROR(400, "客户端错误"),
     SERVER_FAIL(500, "服务器端异常"),
 
-    // 客户端详细错误
+    // 客户端错误细化
     REQUEST_NOT_FOUND(401, "请求方法找不到"),
     REQUEST_METHOD_NOT_ALLOWED(402, "请求方式不允许"),
     REQUEST_BAD(403, "请求语法不正确"),
+
+    // 服务器端异常细化，主要是定义一些业务异常（5001开始）
 
     // 1xxxx: 服务器相关错误
     INTERNAL_SERVER_ERROR(10000, "服务器内部异常"),

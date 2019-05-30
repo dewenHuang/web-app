@@ -1,6 +1,7 @@
 package com.huangdw.util;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -8,7 +9,9 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -197,6 +200,39 @@ public class RedisUtil {
      */
     public static Long hDel(RedisTemplate redisTemplate, final Object key, final Object... fields) {
         return redisTemplate.opsForHash().delete(key, fields);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param redisTemplate
+     * @param keys
+     * @return
+     */
+    public static void delBatch(RedisTemplate redisTemplate, String... keys) {
+        if (null == keys || keys.length == 0) {
+            return;
+        }
+
+        redisTemplate.delete(Arrays.asList(keys));
+    }
+
+    /**
+     * 模式匹配删除（当pattern指定为*时，此方法是否和flushDb方法类似）
+     *
+     * @param redisTemplate
+     * @param pattern
+     * @return
+     */
+    public static void delMatch(RedisTemplate redisTemplate, String pattern) {
+        if (StringUtils.isBlank(pattern)) {
+            return;
+        }
+
+        Set keys = redisTemplate.keys(pattern);// 生产环境慎用，可以使用scan命令
+        if (keys.size() > 0) {
+            redisTemplate.delete(keys);
+        }
     }
 
     /**
