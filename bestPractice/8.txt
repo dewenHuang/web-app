@@ -1,0 +1,31 @@
+ES比传统关系型数据库，对一些概念上的理解：
+Relational DB -> Databases -> Tables -> Rows 	  -> Columns
+Elasticsearch -> Indices   -> Types  -> Documents -> Fields
+Elasticsearch集群可以包含多个索引（indices），每一个索引可以包含多个类型（types），每一个类型包含多个文档（documents），然后每个文档包含多个字段（Fields）
+
+
+es:"10.252.18.53","10.252.18.54","10.252.18.55"
+tcp_port:9600
+http_port:9500
+
+
+分支branch_gdpr_v1.0上线后，合并到master分支，通知其他并行开发的分支合并master分支（或者在其他并行开发的分支上线前再合并master分支，否则会出现分支branch_gdpr_v1.0功能丢失的问题）
+切换到本地master分支：
+git checkout master
+git pull
+git merge branch_gdpr_v1.0 --no-ff
+git push origin HEAD:refs/for/master
+
+已经在本地branch_xxx分支：
+git pull
+git merge master --no-ff
+git push origin HEAD:refs/for/branch_xxx
+
+
+git push origin branch_xxx:branch_xxx / git push origin branch_xxx
+git push origin HEAD:branch_xxx / git push origin HEAD
+
+重写构造方法之前，首先生成无参构造方法；否则默认只有一个无参构造方法
+
+分库分表：
+单个库太大，要看是因为表多而导致的数据多，还是因为单张表里面的数据多。前者可以根据业务切分成不同的库，后者可以按某种规则（比如ID取模）切分成多张表

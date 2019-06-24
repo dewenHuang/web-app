@@ -1,0 +1,26 @@
+console->admin
+portal->web/intf/api
+
+校验：check、validate，验证：verify
+
+'1970-01-01 00:00:01' to '2038-01-19 03:14:07'（UTC）
+'1970-01-01 08:00:01' to '2038-01-19 11:14:07'（中国，建议使用）
+
+@Cacheable用于查方法，根据Key判断此次查询是否已经被缓存了，如果被缓存过则直接从缓存中取得结果，否则将会实际执行这个方法并将结果进行缓存，最后返回缓存结果或者方法执行结果
+@CacheEvict用于删方法，虽然大多数的缓存框架都提供了缓存数据（由@Cacheable注解中Key指定）的有效时间，但是使用这个注解可以立即显式地从缓存存储器中删除过时的数据
+@CachePut用于改方法（需要返回修改后的Bean，即两次调用dao方法），对于标注了@CachePut注解的方法，每次都会执行，并将返回值存入对应的缓存中（如果该key的缓存存在则更新，如果不存在则添加该key的缓存）
+
+SELECT imei, COUNT(*) AS cnt FROM t_warranty_card GROUP BY imei HAVING cnt > 1;
+
+Integer和int进行“==”比较时，会自动拆箱，结果不会产生歧义
+Integer和Integer进行“==”比较时，如果值在-128和127之间则结果为true，否则结果为false；所以最好使用equals或者对应int值进行比较
+
+mybatis映射文件中，if标签判断字符串相等，两种方式：<test="sex=='Y'.toString()">或者<test='sex=="Y"'>
+在mapper接口中，传递单个参数，不使用@Param注解
+
+后台接收页面传值，下拉框默认为“全部”传null，输入框默认为空传""
+在绑定页面参数时，对于字符串类型参数要注意调用trim方法，去除前后空格
+只有在ftl页面调用函数时才需要判空，比如${(xxx.date?string('yyyy-MM-dd'))!}或者${(xxx.date?string('yyyy-MM-dd'))!''}
+
+-Dapp.name=exwarranty-console -Dapp.env=dev -Dconfig.host=middle1.dev.vivo.xyz:6699/vivocfg
+其中后面两项是变化的，应该动态读取
