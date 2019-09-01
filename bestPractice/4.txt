@@ -16,7 +16,7 @@ vivo:message-receiver -> consumer/handler -> MessageHandler.onMessage()
 
 idx_colName UK_colName PK_colName
 
-class="hello-world"(CSS) id="txt_hello_world"(JS) name="helloWorld"(向后台传值)
+class="hello-world"(CSS) id="txt-helloWorld"(JS) name="helloWorld"(向后台传值)
 
 1.基础阶段
 Java8新特性->JUC->NIO->Linux(动力节点)
