@@ -49,7 +49,7 @@ public class Md5Util {
         String data = "123" + "3JaQ";
         System.out.println(Md5Util.encode(data));// 将加密后的字符串作为密码字段存到用户表中
 
-        System.out.println(Md5Util.encode("online@PC@1#@7wllee57"));
-        System.out.println(new Md5Util().encrypt("online@PC@1#@7wllee57"));
+        System.out.println(Md5Util.encode("sgfgsfd25426sgsgsfd"));
+        System.out.println(new Md5Util().encrypt("sgfgsfd25426sgsgsfd"));
     }
 }
